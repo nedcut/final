@@ -33,6 +33,18 @@ state = state.make_move(move)
 - Run the sample script: `python examples/random_self_play.py`
 - It plays random vs random up to a ply cap and prints the final board/outcome.
 
+### Universal match runner
+- Run: `python examples/match_runner.py --white greedy --black random --games 500 --swap-colors`
+- Flags: `--white/--black` agent names (available: random, greedy), `--games`, `--max-plies`, `--swap-colors`, `--print-every N`, `--seed`, `--list-agents`.
+
+### Random vs Greedy batch
+- Run: `python examples/batch_random_vs_greedy.py --games 500 --max-plies 200 --swap-colors`
+- Tally W/D/L over many games; use `--seed` for reproducibility.
+
+### Greedy vs Random
+- Run: `python examples/greedy_vs_random.py`
+- Greedy (White) plays Random (Black) up to a ply cap and prints the result.
+
 ### Greedy vs Greedy self-play
 - Run: `python examples/greedy_self_play.py`
 - One-ply material agents play until terminal or ply cap and print the result.

@@ -6,9 +6,9 @@ from minichess.game import MiniChessState, Move
 
 
 class Agent(ABC):
-    """Interface for agents that choose moves in MiniChess."""
+    """Interface for anything that chooses a legal move in MiniChess."""
 
     @abstractmethod
     def choose_move(self, state: MiniChessState) -> Move:
-        """Select a move from the given state."""
+        """Return a legal move for the given state (implementations should raise if none exist)."""
         raise NotImplementedError

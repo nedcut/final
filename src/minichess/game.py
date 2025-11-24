@@ -9,7 +9,7 @@ Board = Tuple[Tuple[Optional[str], ...], ...]  # 5x5 grid of piece codes or None
 
 @dataclass(frozen=True)
 class Move:
-    """Represents a move as (from_row, from_col) -> (to_row, to_col), with optional promotion."""
+    """A discrete move (from_row, from_col) -> (to_row, to_col), with optional promotion piece."""
 
     from_sq: Tuple[int, int]
     to_sq: Tuple[int, int]
@@ -18,14 +18,14 @@ class Move:
 
 @dataclass(frozen=True)
 class MiniChessState:
-    """Immutable game state for Gardner MiniChess."""
+    """Immutable Gardner MiniChess state (5x5, no castling/en passant, single pawn push)."""
 
     board: Board
     to_move: str  # 'W' or 'B'
     move_history: Tuple[Move, ...] = field(default_factory=tuple)
 
     def legal_moves(self) -> List[Move]:
-        """Generate all legal moves from the current position."""
+        """Enumerate all legal moves that do not leave the side to move in check."""
         pseudo_moves: List[Move] = []
         for r in range(BOARD_SIZE):
             for c in range(BOARD_SIZE):
@@ -41,9 +41,12 @@ class MiniChessState:
                 legal.append(move)
         return legal
 
-    def make_move(self, move: Move) -> "MiniChessState":
-        """Apply a move and return the resulting state."""
-        if move not in self.legal_moves():
+    def make_move(self, move: Move, validate: bool = True) -> "MiniChessState":
+        """Apply a move and return a new state.
+
+        Leave `validate=True` when consuming user/agent input; set `validate=False` only if the
+        move already came from `legal_moves()` to avoid duplicate generation work."""
+        if validate and move not in self.legal_moves():
             raise ValueError("Illegal move")
         next_board = _apply_move(self.board, move)
         next_history = self.move_history + (move,)
@@ -51,7 +54,7 @@ class MiniChessState:
         return MiniChessState(board=next_board, to_move=next_player, move_history=next_history)
 
     def is_terminal(self) -> bool:
-        """Return True if the game has ended (checkmate/stalemate/draw)."""
+        """True when the side to move has no legal moves (checkmate or stalemate)."""
         moves = self.legal_moves()
         if moves:
             return False
@@ -59,7 +62,7 @@ class MiniChessState:
         return True
 
     def result(self) -> float:
-        """Return +1 for white win, -1 for black win, 0 for draw."""
+        """Return +1 for white win, -1 for black win, 0 for draw; requires terminal state."""
         if not self.is_terminal():
             raise ValueError("Game not finished")
         in_check = _is_in_check(self.board, self.to_move)
@@ -70,7 +73,7 @@ class MiniChessState:
         return 0.0
 
     def render(self) -> str:
-        """Render the board to a human-readable string."""
+        """Return a simple text diagram with ranks/files labeled for debugging/CLI play."""
         rows: List[str] = []
         for r, rank in enumerate(self.board):
             rendered = []
@@ -82,7 +85,7 @@ class MiniChessState:
 
 
 def initial_board() -> Board:
-    """Return the canonical 5x5 Gardner MiniChess starting position."""
+    """Canonical 5x5 starting position from Gardner MiniChess (white at rows 0–1)."""
     # R N B Q K
     # P P P P P
     # . . . . .
@@ -103,7 +106,7 @@ def initial_board() -> Board:
 
 
 def initial_state() -> MiniChessState:
-    """Convenience helper for the starting state (white to move)."""
+    """Starting state helper (white to move)."""
     return MiniChessState(board=initial_board(), to_move="W")
 
 

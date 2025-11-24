@@ -7,9 +7,10 @@ from minichess.agents.base import Agent
 
 
 class RandomAgent(Agent):
-    """Chooses a legal move uniformly at random."""
+    """Chooses uniformly among the available legal moves."""
 
     def choose_move(self, state: MiniChessState) -> Move:
+        """Return a random legal move; raises if no moves are available."""
         moves = state.legal_moves()
         if not moves:
             raise ValueError("No legal moves available.")

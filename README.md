@@ -32,3 +32,19 @@ state = state.make_move(move)
 ### Random vs Random self-play
 - Run the sample script: `python examples/random_self_play.py`
 - It plays random vs random up to a ply cap and prints the final board/outcome.
+
+### Greedy vs Greedy self-play
+- Run: `python examples/greedy_self_play.py`
+- One-ply material agents play until terminal or ply cap and print the result.
+
+### Using the greedy baseline
+```python
+from minichess.game import initial_state
+from minichess.agents import GreedyAgent
+
+state = initial_state()
+agent = GreedyAgent()
+move = agent.choose_move(state)
+state = state.make_move(move)
+print(state.render())
+```

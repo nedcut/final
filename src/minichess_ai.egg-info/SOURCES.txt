@@ -1,0 +1,12 @@
+README.md
+pyproject.toml
+src/minichess/__init__.py
+src/minichess/game.py
+src/minichess/agents/__init__.py
+src/minichess/agents/base.py
+src/minichess/agents/random_agent.py
+src/minichess_ai.egg-info/PKG-INFO
+src/minichess_ai.egg-info/SOURCES.txt
+src/minichess_ai.egg-info/dependency_links.txt
+src/minichess_ai.egg-info/top_level.txt
+tests/test_smoke.py

@@ -1,0 +1,5 @@
+Metadata-Version: 2.4
+Name: minichess-ai
+Version: 0.0.1
+Summary: MiniChess agents and experiment code
+Requires-Python: >=3.10

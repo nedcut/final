@@ -34,12 +34,10 @@ state = state.make_move(move)
 - It plays random vs random up to a ply cap and prints the final board/outcome.
 
 ### Universal match runner
-- Run: `python examples/match_runner.py --white greedy --black random --games 500 --swap-colors`
-- Flags: `--white/--black` agent names (available: random, greedy), `--games`, `--max-plies`, `--swap-colors`, `--print-every N`, `--seed`, `--list-agents`.
-
-### Random vs Greedy batch
-- Run: `python examples/batch_random_vs_greedy.py --games 500 --max-plies 200 --swap-colors`
-- Tally W/D/L over many games; use `--seed` for reproducibility.
+- Run: `python examples/match_runner.py --white minimax --black greedy --games 100 --swap-colors --white-depth 3`
+- Flags: `--white/--black` agent names (available: random, greedy, minimax), `--games`, `--max-plies`, `--swap-colors`, `--print-every N`, `--seed`, `--list-agents`.
+- Minimax knobs (used only when the chosen side is `minimax`): `--white-depth/--black-depth` (default: 3), `--white-time-limit/--black-time-limit` (optional, in seconds).
+- Example: `python examples/match_runner.py --white minimax --black random --games 200 --white-depth 2 --seed 42`
 
 ### Greedy vs Random
 - Run: `python examples/greedy_vs_random.py`

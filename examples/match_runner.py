@@ -7,7 +7,7 @@ import random
 from dataclasses import dataclass
 from typing import Callable, Dict, Optional, Tuple
 
-from minichess.agents import GreedyAgent, MinimaxAgent, RandomAgent
+from minichess.agents import GreedyAgent, MinimaxAgent, MCTSAgent, RandomAgent
 from minichess.agents.base import Agent
 from minichess.game import MiniChessState, initial_state
 
@@ -22,10 +22,30 @@ def _minimax_factory(depth: Optional[int] = None, time_limit: Optional[float] = 
     return MinimaxAgent(**kwargs) # type: ignore[arg-type]
 
 
+def _mcts_factory(
+    simulations: Optional[int] = None,
+    time_limit: Optional[float] = None,
+    exploration_c: Optional[float] = None,
+    rollout_depth: Optional[int] = None,
+    **_: object,
+) -> Agent:
+    kwargs: Dict[str, object] = {}
+    if simulations is not None:
+        kwargs["simulations"] = simulations
+    if time_limit is not None:
+        kwargs["time_limit"] = time_limit
+    if exploration_c is not None:
+        kwargs["exploration_c"] = exploration_c
+    if rollout_depth is not None:
+        kwargs["rollout_depth"] = rollout_depth
+    return MCTSAgent(**kwargs) # type: ignore[arg-type]
+
+
 AGENT_FACTORIES: Dict[str, Callable[..., Agent]] = {
     "random": lambda **_: RandomAgent(),
     "greedy": lambda **_: GreedyAgent(),
     "minimax": _minimax_factory,
+    "mcts": _mcts_factory,
 }
 
 
@@ -83,6 +103,12 @@ def make_agent_label(name: str, cfg: Dict[str, object]) -> str:
     parts = [name]
     if "depth" in cfg:
         parts.append(f"depth={cfg['depth']}")
+    if "simulations" in cfg:
+        parts.append(f"sims={cfg['simulations']}")
+    if "rollout_depth" in cfg:
+        parts.append(f"rollout={cfg['rollout_depth']}")
+    if "exploration_c" in cfg:
+        parts.append(f"c={cfg['exploration_c']}")
     if "time_limit" in cfg:
         parts.append(f"time={cfg['time_limit']}s")
 
@@ -175,14 +201,44 @@ def parse_args() -> argparse.Namespace:
         help="Search depth for Black if using minimax.",
     )
     parser.add_argument(
+        "--white-simulations",
+        type=int,
+        help="Number of simulations for White if using MCTS.",
+    )
+    parser.add_argument(
+        "--black-simulations",
+        type=int,
+        help="Number of simulations for Black if using MCTS.",
+    )
+    parser.add_argument(
+        "--white-rollout-depth",
+        type=int,
+        help="Rollout depth for White if using MCTS.",
+    )
+    parser.add_argument(
+        "--black-rollout-depth",
+        type=int,
+        help="Rollout depth for Black if using MCTS.",
+    )
+    parser.add_argument(
+        "--white-exploration-c",
+        type=float,
+        help="Exploration constant (UCT c) for White if using MCTS.",
+    )
+    parser.add_argument(
+        "--black-exploration-c",
+        type=float,
+        help="Exploration constant (UCT c) for Black if using MCTS.",
+    )
+    parser.add_argument(
         "--white-time-limit",
         type=float,
-        help="Per-move time limit (seconds) for White if using minimax.",
+        help="Per-move time limit (seconds) for White if using minimax or mcts.",
     )
     parser.add_argument(
         "--black-time-limit",
         type=float,
-        help="Per-move time limit (seconds) for Black if using minimax.",
+        help="Per-move time limit (seconds) for Black if using minimax or mcts.",
     )
     parser.add_argument(
         "--list-agents",
@@ -208,6 +264,18 @@ def main() -> None:
         white_cfg["depth"] = args.white_depth
     if args.black_depth is not None:
         black_cfg["depth"] = args.black_depth
+    if args.white_simulations is not None:
+        white_cfg["simulations"] = args.white_simulations
+    if args.black_simulations is not None:
+        black_cfg["simulations"] = args.black_simulations
+    if args.white_rollout_depth is not None:
+        white_cfg["rollout_depth"] = args.white_rollout_depth
+    if args.black_rollout_depth is not None:
+        black_cfg["rollout_depth"] = args.black_rollout_depth
+    if args.white_exploration_c is not None:
+        white_cfg["exploration_c"] = args.white_exploration_c
+    if args.black_exploration_c is not None:
+        black_cfg["exploration_c"] = args.black_exploration_c
     if args.white_time_limit is not None:
         white_cfg["time_limit"] = args.white_time_limit
     if args.black_time_limit is not None:

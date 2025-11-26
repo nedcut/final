@@ -64,9 +64,11 @@ We will define **“strong” and “weaker” minimax agents** by adjusting:
 - **Core idea:** Build a search tree using repeated simulations (rollouts) from the current position.
 - **Standard UCT framework:**
   - **Selection:** Follow the tree using an upper-confidence bound formula to balance exploration vs exploitation.
-  - **Expansion:** Add a new child node when a leaf is not fully expanded.
-  - **Simulation:** Run a random (or lightly heuristic) playout until a terminal position or a depth cutoff.
+  - **Expansion:** Add a new child node when a leaf is not fully expanded (with move ordering: captures first).
+  - **Simulation:** Run a capture-biased playout until a terminal position, depth cutoff, or overwhelming advantage.
   - **Backpropagation:** Propagate the game outcome back up the tree.
+- **Implementation knobs (now wired in code/CLI):** simulations (or time limit), rollout depth, exploration constant `c`, rollout policy (capture_bias by default).
+- **Optimizations implemented:** Heuristic evaluation for non-terminal rollouts, move ordering in expansion, early rollout termination for decisive positions.
 
 We will define **“strong” and “weaker” MCTS agents** by adjusting:
 

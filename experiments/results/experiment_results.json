@@ -1,0 +1,83 @@
+[
+  {
+    "config": {
+      "experiment_id": "TM001",
+      "experiment_type": "time_matched",
+      "white_agent": "mcts",
+      "white_config": {
+        "simulations": 50
+      },
+      "black_agent": "minimax",
+      "black_config": {
+        "depth": 3
+      },
+      "num_games": 100,
+      "swap_colors": true,
+      "seed": 1000,
+      "description": "Time-matched: ~0.5s budget"
+    },
+    "results": {
+      "white_wins": 44,
+      "draws": 15,
+      "black_wins": 41,
+      "white_agent_wins": 2,
+      "black_agent_wins": 83,
+      "avg_plies": 50.3,
+      "total_time": 91.42295289039612
+    }
+  },
+  {
+    "config": {
+      "experiment_id": "TM002",
+      "experiment_type": "time_matched",
+      "white_agent": "mcts",
+      "white_config": {
+        "simulations": 100
+      },
+      "black_agent": "minimax",
+      "black_config": {
+        "depth": 4
+      },
+      "num_games": 100,
+      "swap_colors": true,
+      "seed": 2000,
+      "description": "Time-matched: ~1.0s budget"
+    },
+    "results": {
+      "white_wins": 41,
+      "draws": 24,
+      "black_wins": 35,
+      "white_agent_wins": 2,
+      "black_agent_wins": 74,
+      "avg_plies": 65.8,
+      "total_time": 257.8278241157532
+    }
+  },
+  {
+    "config": {
+      "experiment_id": "TM003",
+      "experiment_type": "time_matched",
+      "white_agent": "mcts",
+      "white_config": {
+        "simulations": 200
+      },
+      "black_agent": "minimax",
+      "black_config": {
+        "depth": 4
+      },
+      "num_games": 100,
+      "swap_colors": true,
+      "seed": 3000,
+      "description": "Time-matched: ~2.0s budget"
+    },
+    "results": {
+      "white_wins": 30,
+      "draws": 36,
+      "black_wins": 34,
+      "white_agent_wins": 3,
+      "black_agent_wins": 61,
+      "avg_plies": 94.0,
+      "total_time": 2111.0310819149017
+    }
+  }
+]

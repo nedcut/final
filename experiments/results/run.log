@@ -1,0 +1,50 @@
+Designing time-matched head-to-head experiments...
+Designing resource degradation experiments...
+Designing baseline comparison experiments...
+Designing comprehensive head-to-head matrix...
+Created 29 experiments total
+
+================================================================================
+EXPERIMENT PLAN: 3 experiments
+================================================================================
+TM001: Time-matched: ~0.5s budget
+TM002: Time-matched: ~1.0s budget
+TM003: Time-matched: ~2.0s budget
+
+Total games to run: 300
+Estimated time: 2.5 - 10.0 minutes
+
+Auto-confirmed with --yes flag, proceeding...
+
+
+Progress: 1/3
+
+================================================================================
+Running: TM001 - Time-matched: ~0.5s budget
+================================================================================
+ERROR in experiment TM001: [Errno 2] No such file or directory: 'python'
+Continuing with next experiment...
+
+
+Progress: 2/3
+
+================================================================================
+Running: TM002 - Time-matched: ~1.0s budget
+================================================================================
+ERROR in experiment TM002: [Errno 2] No such file or directory: 'python'
+Continuing with next experiment...
+
+
+Progress: 3/3
+
+================================================================================
+Running: TM003 - Time-matched: ~2.0s budget
+================================================================================
+ERROR in experiment TM003: [Errno 2] No such file or directory: 'python'
+Continuing with next experiment...
+
+================================================================================
+EXPERIMENTS COMPLETE
+================================================================================
+Completed: 0/3 experiments
+Results saved to: experiments/results

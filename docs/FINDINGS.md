@@ -347,16 +347,16 @@ MCTS outperforms minimax in domains with:
 
 ```bash
 # Time-matched: MCTS(100) vs Minimax(4)
-python examples/match_runner.py --white mcts --black minimax \
-  --white-simulations 100 --black-depth 4 --games 100 --swap-colors
+python examples/match_runner.py --agent1 mcts --agent2 minimax \
+  --agent1-simulations 100 --agent2-depth 4 --games 100 --swap-colors
 
 # Baseline: Minimax(3) vs Random
-python examples/match_runner.py --white minimax --black random \
-  --white-depth 3 --games 200 --swap-colors
+python examples/match_runner.py --agent1 minimax --agent2 random \
+  --agent1-depth 3 --games 200 --swap-colors
 
 # High MCTS: MCTS(1000) vs Minimax(3)
-python examples/match_runner.py --white mcts --black minimax \
-  --white-simulations 1000 --black-depth 3 --games 50 --swap-colors
+python examples/match_runner.py --agent1 mcts --agent2 minimax \
+  --agent1-simulations 1000 --agent2-depth 3 --games 50 --swap-colors
 ```
 
 ---

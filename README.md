@@ -12,8 +12,8 @@ pip install -r requirements.txt
 pip install -e .
 
 # Run example match
-python examples/match_runner.py --white minimax --black mcts \
-  --white-depth 3 --black-simulations 100 --games 50 --swap-colors
+python examples/match_runner.py --agent1 minimax --agent2 mcts \
+  --agent1-depth 3 --agent2-simulations 100 --games 50 --swap-colors
 
 # Run tests
 pytest
@@ -72,12 +72,12 @@ state = state.make_move(move)
 
 ```bash
 # Quick demo (single game with visualization)
-python examples/demo.py --white minimax --white-depth 3 \
-  --black mcts --black-simulations 100
+python examples/demo.py --agent1 minimax --agent1-depth 3 \
+  --agent2 mcts --agent2-simulations 100
 
 # Batch matches (multiple games with statistics)
-python examples/match_runner.py --white minimax --black mcts \
-  --white-depth 3 --black-simulations 100 --games 100 --swap-colors
+python examples/match_runner.py --agent1 minimax --agent2 mcts \
+  --agent1-depth 3 --agent2-simulations 100 --games 100 --swap-colors
 
 # Run comprehensive experiments
 python experiments/run_experiments.py --yes

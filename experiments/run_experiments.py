@@ -25,11 +25,11 @@ from typing import List, Optional, Dict, Any
 class ExperimentConfig:
     """Configuration for a single experiment."""
     experiment_id: str
-    experiment_type: str  # "head_to_head", "baseline", "degradation"
-    white_agent: str
-    white_config: Dict[str, Any]
-    black_agent: str
-    black_config: Dict[str, Any]
+    experiment_type: str  # "head_to_head", "baseline", "degradation", "custom"
+    agent1_type: str  # Agent type (e.g., "mcts", "minimax")
+    agent1_config: Dict[str, Any]  # Agent configuration
+    agent2_type: str
+    agent2_config: Dict[str, Any]
     num_games: int
     swap_colors: bool
     seed: int
@@ -40,13 +40,13 @@ class ExperimentConfig:
 class ExperimentResult:
     """Results from a single experiment."""
     config: ExperimentConfig
-    white_wins: int
+    board_white_wins: int  # Wins from White board position
     draws: int
-    black_wins: int
+    board_black_wins: int  # Wins from Black board position
     avg_plies: float
     total_time: float
-    white_agent_wins: int  # After color swapping
-    black_agent_wins: int  # After color swapping
+    agent1_wins: int  # Wins by agent1 (regardless of color)
+    agent2_wins: int  # Wins by agent2 (regardless of color)
 
 
 def create_experiment_matrix(
@@ -83,10 +83,10 @@ def create_experiment_matrix(
                 experiments.append(ExperimentConfig(
                     experiment_id=f"CUSTOM{exp_id:03d}",
                     experiment_type="custom",
-                    white_agent="mcts",
-                    white_config={"simulations": mcts_sims},
-                    black_agent="minimax",
-                    black_config={"depth": mm_depth},
+                    agent1_type="mcts",
+                    agent1_config={"simulations": mcts_sims},
+                    agent2_type="minimax",
+                    agent2_config={"depth": mm_depth},
                     num_games=custom_games,
                     swap_colors=True,
                     seed=exp_id * 1000,
@@ -111,14 +111,14 @@ def create_experiment_matrix(
         ("mcts", {"simulations": 200}, "minimax", {"depth": 4}, "Time-matched: ~2.0s budget"),
     ]
 
-    for white, w_cfg, black, b_cfg, desc in time_matched_configs:
+    for a1_type, a1_cfg, a2_type, a2_cfg, desc in time_matched_configs:
         experiments.append(ExperimentConfig(
             experiment_id=f"TM{exp_id:03d}",
             experiment_type="time_matched",
-            white_agent=white,
-            white_config=w_cfg,
-            black_agent=black,
-            black_config=b_cfg,
+            agent1_type=a1_type,
+            agent1_config=a1_cfg,
+            agent2_type=a2_type,
+            agent2_config=a2_cfg,
             num_games=100,
             swap_colors=True,
             seed=exp_id * 1000,
@@ -136,10 +136,10 @@ def create_experiment_matrix(
         experiments.append(ExperimentConfig(
             experiment_id=f"DEG{exp_id:03d}",
             experiment_type="degradation",
-            white_agent="minimax",
-            white_config={"depth": depth},
-            black_agent="greedy",
-            black_config={},
+            agent1_type="minimax",
+            agent1_config={"depth": depth},
+            agent2_type="greedy",
+            agent2_config={},
             num_games=50,
             swap_colors=True,
             seed=exp_id * 1000,
@@ -152,10 +152,10 @@ def create_experiment_matrix(
         experiments.append(ExperimentConfig(
             experiment_id=f"DEG{exp_id:03d}",
             experiment_type="degradation",
-            white_agent="mcts",
-            white_config={"simulations": sims},
-            black_agent="greedy",
-            black_config={},
+            agent1_type="mcts",
+            agent1_config={"simulations": sims},
+            agent2_type="greedy",
+            agent2_config={},
             num_games=50,
             swap_colors=True,
             seed=exp_id * 1000,
@@ -180,10 +180,10 @@ def create_experiment_matrix(
         experiments.append(ExperimentConfig(
             experiment_id=f"BASE{exp_id:03d}",
             experiment_type="baseline",
-            white_agent=agent,
-            white_config=config,
-            black_agent="random",
-            black_config={},
+            agent1_type=agent,
+            agent1_config=config,
+            agent2_type="random",
+            agent2_config={},
             num_games=30,
             swap_colors=True,
             seed=exp_id * 1000,
@@ -214,10 +214,10 @@ def create_experiment_matrix(
             experiments.append(ExperimentConfig(
                 experiment_id=f"H2H{exp_id:03d}",
                 experiment_type="head_to_head",
-                white_agent=mcts_agent,
-                white_config=mcts_cfg,
-                black_agent=mm_agent,
-                black_config=mm_cfg,
+                agent1_type=mcts_agent,
+                agent1_config=mcts_cfg,
+                agent2_type=mm_agent,
+                agent2_config=mm_cfg,
                 num_games=50,
                 swap_colors=True,
                 seed=exp_id * 1000,
@@ -233,8 +233,8 @@ def build_match_runner_command(config: ExperimentConfig, pythonpath: str) -> Lis
     """Build command to run match_runner.py with given config."""
     cmd = [
         sys.executable, "examples/match_runner.py",
-        "--white", config.white_agent,
-        "--black", config.black_agent,
+        "--agent1", config.agent1_type,
+        "--agent2", config.agent2_type,
         "--games", str(config.num_games),
         "--seed", str(config.seed),
     ]
@@ -242,19 +242,19 @@ def build_match_runner_command(config: ExperimentConfig, pythonpath: str) -> Lis
     if config.swap_colors:
         cmd.append("--swap-colors")
 
-    # Add white agent config
-    for key, value in config.white_config.items():
-        if config.white_agent == "minimax" and key == "depth":
-            cmd.extend([f"--white-depth", str(value)])
-        elif config.white_agent == "mcts" and key == "simulations":
-            cmd.extend([f"--white-simulations", str(value)])
+    # Add agent1 config
+    for key, value in config.agent1_config.items():
+        if config.agent1_type == "minimax" and key == "depth":
+            cmd.extend(["--agent1-depth", str(value)])
+        elif config.agent1_type == "mcts" and key == "simulations":
+            cmd.extend(["--agent1-simulations", str(value)])
 
-    # Add black agent config
-    for key, value in config.black_config.items():
-        if config.black_agent == "minimax" and key == "depth":
-            cmd.extend([f"--black-depth", str(value)])
-        elif config.black_agent == "mcts" and key == "simulations":
-            cmd.extend([f"--black-simulations", str(value)])
+    # Add agent2 config
+    for key, value in config.agent2_config.items():
+        if config.agent2_type == "minimax" and key == "depth":
+            cmd.extend(["--agent2-depth", str(value)])
+        elif config.agent2_type == "mcts" and key == "simulations":
+            cmd.extend(["--agent2-simulations", str(value)])
 
     return cmd
 
@@ -318,21 +318,21 @@ def run_experiment(config: ExperimentConfig, pythonpath: str) -> ExperimentResul
         raise RuntimeError(f"Experiment {config.experiment_id} failed")
 
     # Parse results
-    white_wins, draws, black_wins, avg_plies, agent1_wins, agent2_wins = \
+    board_white_wins, draws, board_black_wins, avg_plies, agent1_wins, agent2_wins = \
         parse_match_output(result.stdout)
 
-    print(f"Results: {config.white_agent} {agent1_wins} - {draws} - {agent2_wins} {config.black_agent}")
+    print(f"Results: {config.agent1_type} {agent1_wins} - {draws} - {agent2_wins} {config.agent2_type}")
     print(f"Time: {elapsed_time:.1f}s")
 
     return ExperimentResult(
         config=config,
-        white_wins=white_wins,
+        board_white_wins=board_white_wins,
         draws=draws,
-        black_wins=black_wins,
+        board_black_wins=board_black_wins,
         avg_plies=avg_plies,
         total_time=elapsed_time,
-        white_agent_wins=agent1_wins,
-        black_agent_wins=agent2_wins
+        agent1_wins=agent1_wins,
+        agent2_wins=agent2_wins
     )
 
 
@@ -346,10 +346,10 @@ def save_results(results: List[ExperimentResult], output_dir: Path):
         writer = csv.writer(f)
         writer.writerow([
             'experiment_id', 'experiment_type', 'description',
-            'white_agent', 'white_config', 'black_agent', 'black_config',
+            'agent1_type', 'agent1_config', 'agent2_type', 'agent2_config',
             'num_games', 'swap_colors',
-            'white_wins', 'draws', 'black_wins',
-            'white_agent_wins', 'black_agent_wins',
+            'board_white_wins', 'draws', 'board_black_wins',
+            'agent1_wins', 'agent2_wins',
             'avg_plies', 'total_time_sec'
         ])
 
@@ -358,17 +358,17 @@ def save_results(results: List[ExperimentResult], output_dir: Path):
                 result.config.experiment_id,
                 result.config.experiment_type,
                 result.config.description,
-                result.config.white_agent,
-                json.dumps(result.config.white_config),
-                result.config.black_agent,
-                json.dumps(result.config.black_config),
+                result.config.agent1_type,
+                json.dumps(result.config.agent1_config),
+                result.config.agent2_type,
+                json.dumps(result.config.agent2_config),
                 result.config.num_games,
                 result.config.swap_colors,
-                result.white_wins,
+                result.board_white_wins,
                 result.draws,
-                result.black_wins,
-                result.white_agent_wins,
-                result.black_agent_wins,
+                result.board_black_wins,
+                result.agent1_wins,
+                result.agent2_wins,
                 result.avg_plies,
                 result.total_time
             ])
@@ -381,11 +381,11 @@ def save_results(results: List[ExperimentResult], output_dir: Path):
         {
             'config': asdict(r.config),
             'results': {
-                'white_wins': r.white_wins,
+                'board_white_wins': r.board_white_wins,
                 'draws': r.draws,
-                'black_wins': r.black_wins,
-                'white_agent_wins': r.white_agent_wins,
-                'black_agent_wins': r.black_agent_wins,
+                'board_black_wins': r.board_black_wins,
+                'agent1_wins': r.agent1_wins,
+                'agent2_wins': r.agent2_wins,
                 'avg_plies': r.avg_plies,
                 'total_time': r.total_time
             }

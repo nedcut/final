@@ -34,14 +34,14 @@ The `demo.py` script provides a simple way to watch different agents play:
 
 ```bash
 # Random vs Random
-python examples/demo.py --white random --black random
+python examples/demo.py --agent1 random --agent2 random
 
 # Greedy vs Random
-python examples/demo.py --white greedy --black random
+python examples/demo.py --agent1 greedy --agent2 random
 
 # Minimax vs MCTS
-python examples/demo.py --white minimax --white-depth 3 \
-  --black mcts --black-simulations 100
+python examples/demo.py --agent1 minimax --agent1-depth 3 \
+  --agent2 mcts --agent2-simulations 100
 
 # For full options
 python examples/demo.py --help
@@ -49,30 +49,37 @@ python examples/demo.py --help
 
 **Available agents:** random, greedy, minimax, mcts
 
+**Note:** agent1 plays the White board position, agent2 plays the Black board position
+
 ### Universal match runner
 For running batches of games and collecting statistics:
 
 ```bash
 # Basic usage
-python examples/match_runner.py --white minimax --black greedy \
-  --games 100 --swap-colors --white-depth 3
+python examples/match_runner.py --agent1 minimax --agent2 greedy \
+  --games 100 --swap-colors --agent1-depth 3
 
 # Advanced example with MCTS
-python examples/match_runner.py --white mcts --white-simulations 800 \
-  --black minimax --black-depth 2 --games 200 --seed 42
+python examples/match_runner.py --agent1 mcts --agent1-simulations 800 \
+  --agent2 minimax --agent2-depth 2 --games 200 --seed 42
 ```
 
 **Flags:**
-- `--white/--black`: Agent names (random, greedy, minimax, mcts)
+- `--agent1/--agent2`: Agent names (random, greedy, minimax, mcts)
 - `--games`: Number of games to play
 - `--max-plies`: Ply cap per game (default: 200)
-- `--swap-colors`: Alternate colors to reduce bias
+- `--swap-colors`: Alternate which agent plays White/Black each game to reduce bias
 - `--print-every N`: Print progress every N games
 - `--seed`: Random seed for reproducibility
 
-**Minimax options:** `--white-depth/--black-depth` (default: 3), `--white-time-limit/--black-time-limit`
+**Minimax options:** `--agent1-depth/--agent2-depth` (default: 3), `--agent1-time-limit/--agent2-time-limit`
 
-**MCTS options:** `--white-simulations/--black-simulations`, `--white-rollout-depth/--black-rollout-depth`, `--white-exploration-c/--black-exploration-c`
+**MCTS options:** `--agent1-simulations/--agent2-simulations`, `--agent1-rollout-depth/--agent2-rollout-depth`, `--agent1-exploration-c/--agent2-exploration-c`
+
+**Terminology:**
+- **Agent1/Agent2**: Player identity (which algorithm/configuration)
+- **White/Black**: Board position (which side of the board)
+- With `--swap-colors`, agents alternate playing White and Black positions
 
 ### Running Experiments
 The experiment runner provides comprehensive testing with flexible configuration:

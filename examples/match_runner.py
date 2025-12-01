@@ -51,16 +51,17 @@ AGENT_FACTORIES: Dict[str, Callable[..., Agent]] = {
 
 @dataclass
 class Tally:
-    agent_a: str
-    agent_b: str
+    agent1: str
+    agent2: str
     white_wins: int = 0
     black_wins: int = 0
     draws: int = 0
-    agent_a_wins: int = 0
-    agent_b_wins: int = 0
+    agent1_wins: int = 0
+    agent2_wins: int = 0
     plies: int = 0  # total plies across games
 
     def record(self, result: float, white_name: str, black_name: str, plies: int) -> None:
+        """Record game result. white_name/black_name are agent labels (not board positions)."""
         self.plies += plies
         if result > 0:
             self.white_wins += 1
@@ -73,18 +74,18 @@ class Tally:
             winner = None
 
         if winner is not None:
-            if winner == self.agent_a:
-                self.agent_a_wins += 1
-            elif winner == self.agent_b:
-                self.agent_b_wins += 1
+            if winner == self.agent1:
+                self.agent1_wins += 1
+            elif winner == self.agent2:
+                self.agent2_wins += 1
 
     def summary(self, total_games: int) -> str:
         avg_plies = self.plies / total_games if total_games else 0.0
         return (
             f"By color -> White {self.white_wins} | Draw {self.draws} | Black {self.black_wins} "
             f"(avg plies: {avg_plies:.1f})\n"
-            f"By agent  -> {self.agent_a} {self.agent_a_wins} | Draw {self.draws} | "
-            f"{self.agent_b} {self.agent_b_wins}"
+            f"By agent  -> {self.agent1} {self.agent1_wins} | Draw {self.draws} | "
+            f"{self.agent2} {self.agent2_wins}"
         )
 
 
@@ -130,19 +131,26 @@ def play_game(white: Agent, black: Agent, max_plies: int) -> tuple[float, int, M
 
 
 def run_batch(
-    white_name: str,
-    black_name: str,
+    agent1_name: str,
+    agent2_name: str,
     num_games: int,
     max_plies: int,
     swap_colors: bool,
     print_every: int,
-    white_cfg: Dict[str, object],
-    black_cfg: Dict[str, object],
+    agent1_cfg: Dict[str, object],
+    agent2_cfg: Dict[str, object],
 ) -> Tally:
+    """Run a batch of games between two agents.
+
+    Args:
+        agent1_name: Type of first agent (e.g., "minimax")
+        agent2_name: Type of second agent (e.g., "mcts")
+        swap_colors: If True, agents alternate playing White/Black positions
+    """
     # Create unique labels that include configuration
-    white_label = make_agent_label(white_name, white_cfg)
-    black_label = make_agent_label(black_name, black_cfg)
-    tally = Tally(agent_a=white_label, agent_b=black_label)
+    agent1_label = make_agent_label(agent1_name, agent1_cfg)
+    agent2_label = make_agent_label(agent2_name, agent2_cfg)
+    tally = Tally(agent1=agent1_label, agent2=agent2_label)
     agent_cache: Dict[Tuple[str, Tuple[Tuple[str, object], ...]], Agent] = {}
 
     def cached(name: str, cfg: Dict[str, object]) -> Agent:
@@ -152,14 +160,17 @@ def run_batch(
         return agent_cache[key]
 
     for game_idx in range(num_games):
+        # Determine which agent plays which board position (W/B) for this game
         if swap_colors and game_idx % 2 == 1:
-            w_name, b_name = black_name, white_name
-            w_cfg, b_cfg = black_cfg, white_cfg
-            w_label, b_label = black_label, white_label
+            # Swap: agent2 plays White, agent1 plays Black
+            w_name, b_name = agent2_name, agent1_name
+            w_cfg, b_cfg = agent2_cfg, agent1_cfg
+            w_label, b_label = agent2_label, agent1_label
         else:
-            w_name, b_name = white_name, black_name
-            w_cfg, b_cfg = white_cfg, black_cfg
-            w_label, b_label = white_label, black_label
+            # Normal: agent1 plays White, agent2 plays Black
+            w_name, b_name = agent1_name, agent2_name
+            w_cfg, b_cfg = agent1_cfg, agent2_cfg
+            w_label, b_label = agent1_label, agent2_label
 
         result, plies, _ = play_game(cached(w_name, w_cfg), cached(b_name, b_cfg), max_plies)
         tally.record(result, w_label, b_label, plies)
@@ -174,14 +185,14 @@ def run_batch(
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Run batches of MiniChess games between agents.")
-    parser.add_argument("--white", default="greedy", help="Agent playing White (default: greedy).")
-    parser.add_argument("--black", default="random", help="Agent playing Black (default: random).")
+    parser.add_argument("--agent1", default="greedy", help="First agent type (default: greedy).")
+    parser.add_argument("--agent2", default="random", help="Second agent type (default: random).")
     parser.add_argument("--games", type=int, default=100, help="Number of games to run.")
     parser.add_argument("--max-plies", type=int, default=200, help="Ply cap per game before declaring draw-ish.")
     parser.add_argument(
         "--swap-colors",
         action="store_true",
-        help="Alternate colors every game to reduce starting-side bias.",
+        help="Alternate which agent plays White/Black each game (reduces bias).",
     )
     parser.add_argument("--seed", type=int, help="Optional RNG seed for reproducibility.")
     parser.add_argument(
@@ -191,54 +202,54 @@ def parse_args() -> argparse.Namespace:
         help="If >0, print running summary every N games.",
     )
     parser.add_argument(
-        "--white-depth",
+        "--agent1-depth",
         type=int,
-        help="Search depth for White if using minimax.",
+        help="Search depth for agent1 if using minimax.",
     )
     parser.add_argument(
-        "--black-depth",
+        "--agent2-depth",
         type=int,
-        help="Search depth for Black if using minimax.",
+        help="Search depth for agent2 if using minimax.",
     )
     parser.add_argument(
-        "--white-simulations",
+        "--agent1-simulations",
         type=int,
-        help="Number of simulations for White if using MCTS.",
+        help="Number of simulations for agent1 if using MCTS.",
     )
     parser.add_argument(
-        "--black-simulations",
+        "--agent2-simulations",
         type=int,
-        help="Number of simulations for Black if using MCTS.",
+        help="Number of simulations for agent2 if using MCTS.",
     )
     parser.add_argument(
-        "--white-rollout-depth",
+        "--agent1-rollout-depth",
         type=int,
-        help="Rollout depth for White if using MCTS.",
+        help="Rollout depth for agent1 if using MCTS.",
     )
     parser.add_argument(
-        "--black-rollout-depth",
+        "--agent2-rollout-depth",
         type=int,
-        help="Rollout depth for Black if using MCTS.",
+        help="Rollout depth for agent2 if using MCTS.",
     )
     parser.add_argument(
-        "--white-exploration-c",
+        "--agent1-exploration-c",
         type=float,
-        help="Exploration constant (UCT c) for White if using MCTS.",
+        help="Exploration constant (UCT c) for agent1 if using MCTS.",
     )
     parser.add_argument(
-        "--black-exploration-c",
+        "--agent2-exploration-c",
         type=float,
-        help="Exploration constant (UCT c) for Black if using MCTS.",
+        help="Exploration constant (UCT c) for agent2 if using MCTS.",
     )
     parser.add_argument(
-        "--white-time-limit",
+        "--agent1-time-limit",
         type=float,
-        help="Per-move time limit (seconds) for White if using minimax or mcts.",
+        help="Per-move time limit (seconds) for agent1 if using minimax or mcts.",
     )
     parser.add_argument(
-        "--black-time-limit",
+        "--agent2-time-limit",
         type=float,
-        help="Per-move time limit (seconds) for Black if using minimax or mcts.",
+        help="Per-move time limit (seconds) for agent2 if using minimax or mcts.",
     )
     parser.add_argument(
         "--list-agents",
@@ -258,41 +269,41 @@ def main() -> None:
     if args.seed is not None:
         random.seed(args.seed)
 
-    white_cfg: Dict[str, object] = {}
-    black_cfg: Dict[str, object] = {}
-    if args.white_depth is not None:
-        white_cfg["depth"] = args.white_depth
-    if args.black_depth is not None:
-        black_cfg["depth"] = args.black_depth
-    if args.white_simulations is not None:
-        white_cfg["simulations"] = args.white_simulations
-    if args.black_simulations is not None:
-        black_cfg["simulations"] = args.black_simulations
-    if args.white_rollout_depth is not None:
-        white_cfg["rollout_depth"] = args.white_rollout_depth
-    if args.black_rollout_depth is not None:
-        black_cfg["rollout_depth"] = args.black_rollout_depth
-    if args.white_exploration_c is not None:
-        white_cfg["exploration_c"] = args.white_exploration_c
-    if args.black_exploration_c is not None:
-        black_cfg["exploration_c"] = args.black_exploration_c
-    if args.white_time_limit is not None:
-        white_cfg["time_limit"] = args.white_time_limit
-    if args.black_time_limit is not None:
-        black_cfg["time_limit"] = args.black_time_limit
+    agent1_cfg: Dict[str, object] = {}
+    agent2_cfg: Dict[str, object] = {}
+    if args.agent1_depth is not None:
+        agent1_cfg["depth"] = args.agent1_depth
+    if args.agent2_depth is not None:
+        agent2_cfg["depth"] = args.agent2_depth
+    if args.agent1_simulations is not None:
+        agent1_cfg["simulations"] = args.agent1_simulations
+    if args.agent2_simulations is not None:
+        agent2_cfg["simulations"] = args.agent2_simulations
+    if args.agent1_rollout_depth is not None:
+        agent1_cfg["rollout_depth"] = args.agent1_rollout_depth
+    if args.agent2_rollout_depth is not None:
+        agent2_cfg["rollout_depth"] = args.agent2_rollout_depth
+    if args.agent1_exploration_c is not None:
+        agent1_cfg["exploration_c"] = args.agent1_exploration_c
+    if args.agent2_exploration_c is not None:
+        agent2_cfg["exploration_c"] = args.agent2_exploration_c
+    if args.agent1_time_limit is not None:
+        agent1_cfg["time_limit"] = args.agent1_time_limit
+    if args.agent2_time_limit is not None:
+        agent2_cfg["time_limit"] = args.agent2_time_limit
 
     tally = run_batch(
-        white_name=args.white,
-        black_name=args.black,
+        agent1_name=args.agent1,
+        agent2_name=args.agent2,
         num_games=args.games,
         max_plies=args.max_plies,
         swap_colors=args.swap_colors,
         print_every=args.print_every,
-        white_cfg=white_cfg,
-        black_cfg=black_cfg,
+        agent1_cfg=agent1_cfg,
+        agent2_cfg=agent2_cfg,
     )
 
-    print(f"Ran {args.games} games: White={args.white}, Black={args.black}, swap_colors={args.swap_colors}")
+    print(f"Ran {args.games} games: agent1={args.agent1}, agent2={args.agent2}, swap_colors={args.swap_colors}")
     print(tally.summary(args.games))
 
 

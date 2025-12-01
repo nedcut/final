@@ -3,54 +3,54 @@
     "config": {
       "experiment_id": "TM001",
       "experiment_type": "time_matched",
-      "white_agent": "mcts",
-      "white_config": {
-        "simulations": 50
-      },
-      "black_agent": "minimax",
-      "black_config": {
-        "depth": 3
-      },
       "num_games": 100,
       "swap_colors": true,
       "seed": 1000,
-      "description": "Time-matched: ~0.5s budget"
+      "description": "Time-matched: ~0.5s budget",
+      "agent1_type": "mcts",
+      "agent1_config": {
+        "simulations": 50
+      },
+      "agent2_type": "minimax",
+      "agent2_config": {
+        "depth": 3
+      }
     },
     "results": {
-      "white_wins": 35,
       "draws": 20,
-      "black_wins": 45,
-      "white_agent_wins": 1,
-      "black_agent_wins": 79,
       "avg_plies": 58.4,
-      "total_time": 135.6686189174652
+      "total_time": 135.6686189174652,
+      "board_white_wins": 35,
+      "board_black_wins": 45,
+      "agent1_wins": 1,
+      "agent2_wins": 79
     }
   },
   {
     "config": {
       "experiment_id": "TM002",
       "experiment_type": "time_matched",
-      "white_agent": "mcts",
-      "white_config": {
-        "simulations": 100
-      },
-      "black_agent": "minimax",
-      "black_config": {
-        "depth": 4
-      },
       "num_games": 100,
       "swap_colors": true,
       "seed": 2000,
-      "description": "Time-matched: ~1.0s budget"
+      "description": "Time-matched: ~1.0s budget",
+      "agent1_type": "mcts",
+      "agent1_config": {
+        "simulations": 100
+      },
+      "agent2_type": "minimax",
+      "agent2_config": {
+        "depth": 4
+      }
     },
     "results": {
-      "white_wins": 33,
       "draws": 28,
-      "black_wins": 39,
-      "white_agent_wins": 0,
-      "black_agent_wins": 72,
       "avg_plies": 73.1,
-      "total_time": 402.4655957221985
+      "total_time": 402.4655957221985,
+      "board_white_wins": 33,
+      "board_black_wins": 39,
+      "agent1_wins": 0,
+      "agent2_wins": 72
     }
   }
 ]

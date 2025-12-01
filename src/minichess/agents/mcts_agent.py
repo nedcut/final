@@ -4,10 +4,10 @@ import math
 import random
 import time
 from dataclasses import dataclass, field
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Tuple
 
 from minichess.agents.base import Agent
-from minichess.game import MiniChessState, Move
+from minichess.game import Board, MiniChessState, Move
 
 # Material values for heuristic evaluation
 MATERIAL = {
@@ -66,7 +66,8 @@ class MCTSAgent(Agent):
         if len(legal) == 1:
             return legal[0]
 
-        nodes: Dict[MiniChessState, _Node] = {}
+        # Key transpositions on position only (board + side to move), not history.
+        nodes: Dict[Tuple[Board, str], _Node] = {}
         root = self._get_node(nodes, state, legal)
         deadline = time.perf_counter() + self.time_limit if self.time_limit else None
 
@@ -87,7 +88,7 @@ class MCTSAgent(Agent):
     def _run_simulation(
         self,
         root: _Node,
-        nodes: Dict[MiniChessState, _Node],
+        nodes: Dict[Tuple[Board, str], _Node],
         deadline: Optional[float],
     ) -> None:
         """Execute one MCTS simulation: Selection, Expansion, Simulation, Backpropagation."""
@@ -202,12 +203,13 @@ class MCTSAgent(Agent):
         return deadline is not None and time.perf_counter() >= deadline
 
     @staticmethod
-    def _get_node(nodes: Dict[MiniChessState, _Node], state: MiniChessState, legal_moves: List[Move]) -> _Node:
-        """Get or create a node for the given state (transposition table lookup)."""
-        if state not in nodes:
+    def _get_node(nodes: Dict[Tuple[Board, str], _Node], state: MiniChessState, legal_moves: List[Move]) -> _Node:
+        """Get or create a node for the given position (transposition table lookup)."""
+        key = (state.board, state.to_move)
+        if key not in nodes:
             # Order moves for better expansion: captures first, then quiet moves
             captures = [m for m in legal_moves if state.board[m.to_sq[0]][m.to_sq[1]] is not None]
             quiet = [m for m in legal_moves if state.board[m.to_sq[0]][m.to_sq[1]] is None]
             ordered_moves = captures + quiet
-            nodes[state] = _Node(state=state, untried_moves=ordered_moves)
-        return nodes[state]
+            nodes[key] = _Node(state=state, untried_moves=ordered_moves)
+        return nodes[key]

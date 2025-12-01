@@ -31,6 +31,7 @@ class GreedyAgent(Agent):
             if score > best_score:
                 best_score = score
                 best_move = move
+        # Return the move that leaves us ahead on material
         return best_move
 
     @staticmethod

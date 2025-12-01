@@ -136,6 +136,7 @@ class MCTSAgent(Agent):
             else:
                 sign = -1.0 if node.state.to_move != child.state.to_move else 1.0
                 mean = sign * (child.value / child.visits)
+            # Encourage low-visit nodes until they are explored
             explore = self.exploration_c * math.sqrt(log_parent / child.visits) if child.visits else float("inf")
             return mean + explore
 

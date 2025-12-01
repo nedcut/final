@@ -37,6 +37,7 @@ class MiniChessState:
         legal: List[Move] = []
         for move in pseudo_moves:
             next_board = _apply_move(self.board, move)
+            # Only keep moves that leave our king safe
             if not _is_in_check(next_board, self.to_move):
                 legal.append(move)
         return legal
@@ -125,6 +126,7 @@ def _apply_move(board: Board, move: Move) -> Board:
     brd = [list(row) for row in board]
     piece = brd[move.from_sq[0]][move.from_sq[1]]
     brd[move.from_sq[0]][move.from_sq[1]] = None
+    # Use promoted piece if provided (otherwise keep original)
     dest_piece = move.promotion if move.promotion is not None else piece
     brd[move.to_sq[0]][move.to_sq[1]] = dest_piece
     return tuple(tuple(row) for row in brd)

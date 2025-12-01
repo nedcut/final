@@ -43,6 +43,7 @@ class MinimaxAgent(Agent):
         best_move = moves[0]
         best_score = -math.inf
         alpha, beta = -math.inf, math.inf
+        # Soft deadline so we can bail early if time-limited
         deadline = time.perf_counter() + self.time_limit if self.time_limit else None
 
         for move in self._order_moves(state, moves):
@@ -86,6 +87,7 @@ class MinimaxAgent(Agent):
                     value,
                     self._search(child, depth - 1, alpha, beta, maximizing_color, deadline),
                 )
+                # Standard alpha-beta cutoff
                 alpha = max(alpha, value)
                 if beta <= alpha or self._timed_out(deadline):
                     break
@@ -98,6 +100,7 @@ class MinimaxAgent(Agent):
                 value,
                 self._search(child, depth - 1, alpha, beta, maximizing_color, deadline),
             )
+            # Standard alpha-beta cutoff
             beta = min(beta, value)
             if beta <= alpha or self._timed_out(deadline):
                 break

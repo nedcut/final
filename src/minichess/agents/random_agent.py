@@ -14,4 +14,5 @@ class RandomAgent(Agent):
         moves = state.legal_moves()
         if not moves:
             raise ValueError("No legal moves available.")
+        # Uniform random pick among legal options
         return random.choice(moves)

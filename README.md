@@ -71,12 +71,20 @@ state = state.make_move(move)
 ### Run Matches
 
 ```bash
-# Minimax vs MCTS
-python examples/match_runner.py --white minimax --black mcts \
-  --white-depth 3 --black-simulations 100 --games 100
+# Quick demo (single game with visualization)
+python examples/demo.py --white minimax --white-depth 3 \
+  --black mcts --black-simulations 100
 
-# Run experiments
-python experiments/run_experiments.py
+# Batch matches (multiple games with statistics)
+python examples/match_runner.py --white minimax --black mcts \
+  --white-depth 3 --black-simulations 100 --games 100 --swap-colors
+
+# Run comprehensive experiments
+python experiments/run_experiments.py --yes
+
+# Run custom high-MCTS experiments
+python experiments/run_experiments.py \
+  --custom-mcts 300,500,1000 --custom-minimax 2,3,4
 
 # Analyze results
 python experiments/analyze_results.py

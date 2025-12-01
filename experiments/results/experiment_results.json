@@ -1,35 +1,8 @@
 [
   {
     "config": {
-      "experiment_id": "H2H018",
-      "experiment_type": "head_to_head",
-      "white_agent": "mcts",
-      "white_config": {
-        "simulations": 50
-      },
-      "black_agent": "minimax",
-      "black_config": {
-        "depth": 2
-      },
-      "num_games": 50,
-      "swap_colors": true,
-      "seed": 18000,
-      "description": "MCTS(50) vs Minimax(2)"
-    },
-    "results": {
-      "white_wins": 18,
-      "draws": 10,
-      "black_wins": 22,
-      "white_agent_wins": 1,
-      "black_agent_wins": 39,
-      "avg_plies": 60.6,
-      "total_time": 43.577232837677
-    }
-  },
-  {
-    "config": {
-      "experiment_id": "H2H019",
-      "experiment_type": "head_to_head",
+      "experiment_id": "TM001",
+      "experiment_type": "time_matched",
       "white_agent": "mcts",
       "white_config": {
         "simulations": 50
@@ -38,481 +11,46 @@
       "black_config": {
         "depth": 3
       },
-      "num_games": 50,
+      "num_games": 100,
       "swap_colors": true,
-      "seed": 19000,
-      "description": "MCTS(50) vs Minimax(3)"
+      "seed": 1000,
+      "description": "Time-matched: ~0.5s budget"
     },
     "results": {
-      "white_wins": 24,
-      "draws": 5,
-      "black_wins": 21,
-      "white_agent_wins": 0,
-      "black_agent_wins": 45,
-      "avg_plies": 41.2,
-      "total_time": 33.670127868652344
-    }
-  },
-  {
-    "config": {
-      "experiment_id": "H2H020",
-      "experiment_type": "head_to_head",
-      "white_agent": "mcts",
-      "white_config": {
-        "simulations": 50
-      },
-      "black_agent": "minimax",
-      "black_config": {
-        "depth": 4
-      },
-      "num_games": 50,
-      "swap_colors": true,
-      "seed": 20000,
-      "description": "MCTS(50) vs Minimax(4)"
-    },
-    "results": {
-      "white_wins": 22,
-      "draws": 5,
-      "black_wins": 23,
-      "white_agent_wins": 0,
-      "black_agent_wins": 45,
-      "avg_plies": 41.0,
-      "total_time": 57.339277029037476
-    }
-  },
-  {
-    "config": {
-      "experiment_id": "H2H021",
-      "experiment_type": "head_to_head",
-      "white_agent": "mcts",
-      "white_config": {
-        "simulations": 100
-      },
-      "black_agent": "minimax",
-      "black_config": {
-        "depth": 2
-      },
-      "num_games": 50,
-      "swap_colors": true,
-      "seed": 21000,
-      "description": "MCTS(100) vs Minimax(2)"
-    },
-    "results": {
-      "white_wins": 21,
-      "draws": 8,
-      "black_wins": 21,
-      "white_agent_wins": 0,
-      "black_agent_wins": 42,
-      "avg_plies": 55.1,
-      "total_time": 81.7191219329834
-    }
-  },
-  {
-    "config": {
-      "experiment_id": "H2H022",
-      "experiment_type": "head_to_head",
-      "white_agent": "mcts",
-      "white_config": {
-        "simulations": 100
-      },
-      "black_agent": "minimax",
-      "black_config": {
-        "depth": 3
-      },
-      "num_games": 50,
-      "swap_colors": true,
-      "seed": 22000,
-      "description": "MCTS(100) vs Minimax(3)"
-    },
-    "results": {
-      "white_wins": 20,
-      "draws": 11,
-      "black_wins": 19,
-      "white_agent_wins": 1,
-      "black_agent_wins": 38,
-      "avg_plies": 65.1,
-      "total_time": 83.54991626739502
-    }
-  },
-  {
-    "config": {
-      "experiment_id": "H2H023",
-      "experiment_type": "head_to_head",
-      "white_agent": "mcts",
-      "white_config": {
-        "simulations": 100
-      },
-      "black_agent": "minimax",
-      "black_config": {
-        "depth": 4
-      },
-      "num_games": 50,
-      "swap_colors": true,
-      "seed": 23000,
-      "description": "MCTS(100) vs Minimax(4)"
-    },
-    "results": {
-      "white_wins": 15,
-      "draws": 12,
-      "black_wins": 23,
-      "white_agent_wins": 0,
-      "black_agent_wins": 38,
-      "avg_plies": 67.6,
-      "total_time": 116.39174032211304
-    }
-  },
-  {
-    "config": {
-      "experiment_id": "H2H024",
-      "experiment_type": "head_to_head",
-      "white_agent": "mcts",
-      "white_config": {
-        "simulations": 150
-      },
-      "black_agent": "minimax",
-      "black_config": {
-        "depth": 2
-      },
-      "num_games": 50,
-      "swap_colors": true,
-      "seed": 24000,
-      "description": "MCTS(150) vs Minimax(2)"
-    },
-    "results": {
-      "white_wins": 12,
+      "white_wins": 35,
       "draws": 20,
-      "black_wins": 18,
+      "black_wins": 45,
       "white_agent_wins": 1,
-      "black_agent_wins": 29,
-      "avg_plies": 97.1,
-      "total_time": 201.6760950088501
+      "black_agent_wins": 79,
+      "avg_plies": 58.4,
+      "total_time": 135.6686189174652
     }
   },
   {
     "config": {
-      "experiment_id": "H2H025",
-      "experiment_type": "head_to_head",
+      "experiment_id": "TM002",
+      "experiment_type": "time_matched",
       "white_agent": "mcts",
       "white_config": {
-        "simulations": 150
-      },
-      "black_agent": "minimax",
-      "black_config": {
-        "depth": 3
-      },
-      "num_games": 50,
-      "swap_colors": true,
-      "seed": 25000,
-      "description": "MCTS(150) vs Minimax(3)"
-    },
-    "results": {
-      "white_wins": 19,
-      "draws": 14,
-      "black_wins": 17,
-      "white_agent_wins": 3,
-      "black_agent_wins": 33,
-      "avg_plies": 76.9,
-      "total_time": 160.93411016464233
-    }
-  },
-  {
-    "config": {
-      "experiment_id": "H2H026",
-      "experiment_type": "head_to_head",
-      "white_agent": "mcts",
-      "white_config": {
-        "simulations": 150
+        "simulations": 100
       },
       "black_agent": "minimax",
       "black_config": {
         "depth": 4
       },
-      "num_games": 50,
+      "num_games": 100,
       "swap_colors": true,
-      "seed": 26000,
-      "description": "MCTS(150) vs Minimax(4)"
+      "seed": 2000,
+      "description": "Time-matched: ~1.0s budget"
     },
     "results": {
-      "white_wins": 14,
-      "draws": 15,
-      "black_wins": 21,
+      "white_wins": 33,
+      "draws": 28,
+      "black_wins": 39,
       "white_agent_wins": 0,
-      "black_agent_wins": 35,
-      "avg_plies": 79.6,
-      "total_time": 1201.8012928962708
+      "black_agent_wins": 72,
+      "avg_plies": 73.1,
+      "total_time": 402.4655957221985
     }
-  },
-  {
-    "config": {
-      "experiment_id": "H2H027",
-      "experiment_type": "head_to_head",
-      "white_agent": "mcts",
-      "white_config": {
-        "simulations": 200
-      },
-      "black_agent": "minimax",
-      "black_config": {
-        "depth": 2
-      },
-      "num_games": 50,
-      "swap_colors": true,
-      "seed": 27000,
-      "description": "MCTS(200) vs Minimax(2)"
-    },
-    "results": {
-      "white_wins": 7,
-      "draws": 20,
-      "black_wins": 23,
-      "white_agent_wins": 3,
-      "black_agent_wins": 27,
-      "avg_plies": 94.2,
-      "total_time": 303.6007969379425
-    }
-  },
-  {
-    "config": {
-      "experiment_id": "H2H028",
-      "experiment_type": "head_to_head",
-      "white_agent": "mcts",
-      "white_config": {
-        "simulations": 200
-      },
-      "black_agent": "minimax",
-      "black_config": {
-        "depth": 3
-      },
-      "num_games": 50,
-      "swap_colors": true,
-      "seed": 28000,
-      "description": "MCTS(200) vs Minimax(3)"
-    },
-    "results": {
-      "white_wins": 21,
-      "draws": 11,
-      "black_wins": 18,
-      "white_agent_wins": 5,
-      "black_agent_wins": 34,
-      "avg_plies": 68.1,
-      "total_time": 190.25626301765442
-    }
-  },
-  {
-    "config": {
-      "experiment_id": "H2H029",
-      "experiment_type": "head_to_head",
-      "white_agent": "mcts",
-      "white_config": {
-        "simulations": 200
-      },
-      "black_agent": "minimax",
-      "black_config": {
-        "depth": 4
-      },
-      "num_games": 50,
-      "swap_colors": true,
-      "seed": 29000,
-      "description": "MCTS(200) vs Minimax(4)"
-    },
-    "results": {
-      "white_wins": 14,
-      "draws": 18,
-      "black_wins": 18,
-      "white_agent_wins": 2,
-      "black_agent_wins": 30,
-      "avg_plies": 91.8,
-      "total_time": 292.5740821361542
-    }
-  },
-  {
-    "experiment_id": "HIGH030",
-    "experiment_name": "MCTS(300) vs Minimax(2)",
-    "description": "High MCTS: sims=300 vs depth=2",
-    "white_agent": "mcts",
-    "black_agent": "minimax",
-    "white_config": 300,
-    "black_config": 2,
-    "white_wins": 3,
-    "draws": 3,
-    "black_wins": 4,
-    "total_games": 50,
-    "avg_plies": 85.9,
-    "elapsed_seconds": 978.8808372020721,
-    "timestamp": "2025-11-26T09:12:57.237659"
-  },
-  {
-    "experiment_id": "HIGH031",
-    "experiment_name": "MCTS(300) vs Minimax(3)",
-    "description": "High MCTS: sims=300 vs depth=3",
-    "white_agent": "mcts",
-    "black_agent": "minimax",
-    "white_config": 300,
-    "black_config": 3,
-    "white_wins": 2,
-    "draws": 5,
-    "black_wins": 3,
-    "total_games": 50,
-    "avg_plies": 114.4,
-    "elapsed_seconds": 390.4116840362549,
-    "timestamp": "2025-11-26T09:19:27.651056"
-  },
-  {
-    "experiment_id": "HIGH032",
-    "experiment_name": "MCTS(300) vs Minimax(4)",
-    "description": "High MCTS: sims=300 vs depth=4",
-    "white_agent": "mcts",
-    "black_agent": "minimax",
-    "white_config": 300,
-    "black_config": 4,
-    "white_wins": 4,
-    "draws": 3,
-    "black_wins": 3,
-    "total_games": 50,
-    "avg_plies": 78.0,
-    "elapsed_seconds": 313.7364749908447,
-    "timestamp": "2025-11-26T09:24:41.388352"
-  },
-  {
-    "experiment_id": "HIGH033",
-    "experiment_name": "MCTS(500) vs Minimax(2)",
-    "description": "High MCTS: sims=500 vs depth=2",
-    "white_agent": "mcts",
-    "black_agent": "minimax",
-    "white_config": 500,
-    "black_config": 2,
-    "white_wins": 5,
-    "draws": 2,
-    "black_wins": 3,
-    "total_games": 50,
-    "avg_plies": 81.1,
-    "elapsed_seconds": 800.4696202278137,
-    "timestamp": "2025-11-26T09:38:01.859367"
-  },
-  {
-    "experiment_id": "HIGH034",
-    "experiment_name": "MCTS(500) vs Minimax(3)",
-    "description": "High MCTS: sims=500 vs depth=3",
-    "white_agent": "mcts",
-    "black_agent": "minimax",
-    "white_config": 500,
-    "black_config": 3,
-    "white_wins": 6,
-    "draws": 1,
-    "black_wins": 3,
-    "total_games": 50,
-    "avg_plies": 59.8,
-    "elapsed_seconds": 538.1219689846039,
-    "timestamp": "2025-11-26T09:46:59.982823"
-  },
-  {
-    "experiment_id": "HIGH035",
-    "experiment_name": "MCTS(500) vs Minimax(4)",
-    "description": "High MCTS: sims=500 vs depth=4",
-    "white_agent": "mcts",
-    "black_agent": "minimax",
-    "white_config": 500,
-    "black_config": 4,
-    "white_wins": 2,
-    "draws": 5,
-    "black_wins": 3,
-    "total_games": 50,
-    "avg_plies": 127.6,
-    "elapsed_seconds": 1556.1744079589844,
-    "timestamp": "2025-11-26T10:12:56.158126"
-  },
-  {
-    "experiment_id": "HIGH036",
-    "experiment_name": "MCTS(1000) vs Minimax(2)",
-    "description": "High MCTS: sims=1000 vs depth=2",
-    "white_agent": "mcts",
-    "black_agent": "minimax",
-    "white_config": 1000,
-    "black_config": 2,
-    "white_wins": 4,
-    "draws": 3,
-    "black_wins": 3,
-    "total_games": 50,
-    "avg_plies": 109.8,
-    "elapsed_seconds": 3716.4495618343353,
-    "timestamp": "2025-11-26T11:14:52.608591"
-  },
-  {
-    "experiment_id": "HIGH037",
-    "experiment_name": "MCTS(1000) vs Minimax(3)",
-    "description": "High MCTS: sims=1000 vs depth=3",
-    "white_agent": "mcts",
-    "black_agent": "minimax",
-    "white_config": 1000,
-    "black_config": 3,
-    "white_wins": 5,
-    "draws": 3,
-    "black_wins": 2,
-    "total_games": 50,
-    "avg_plies": 76.1,
-    "elapsed_seconds": 1070.3286290168762,
-    "timestamp": "2025-11-26T11:32:42.938404"
-  },
-  {
-    "experiment_id": "HIGH038",
-    "experiment_name": "MCTS(1000) vs Minimax(4)",
-    "description": "High MCTS: sims=1000 vs depth=4",
-    "white_agent": "mcts",
-    "black_agent": "minimax",
-    "white_config": 1000,
-    "black_config": 4,
-    "white_wins": 4,
-    "draws": 4,
-    "black_wins": 2,
-    "total_games": 50,
-    "avg_plies": 96.6,
-    "elapsed_seconds": 1473.669664144516,
-    "timestamp": "2025-11-26T11:57:16.610002"
-  },
-  {
-    "experiment_id": "ULTRA039",
-    "experiment_name": "MCTS(2000) vs Minimax(3)",
-    "description": "Ultra-high MCTS: sims=2000 vs depth=3",
-    "white_agent": "mcts",
-    "black_agent": "minimax",
-    "white_config": 2000,
-    "black_config": 3,
-    "white_wins": 4,
-    "draws": 3,
-    "black_wins": 3,
-    "total_games": 50,
-    "avg_plies": 88.0,
-    "elapsed_seconds": 3861.277459859848,
-    "timestamp": "2025-11-26T16:05:25.672447"
-  },
-  {
-    "experiment_id": "ULTRA040",
-    "experiment_name": "MCTS(3000) vs Minimax(3)",
-    "description": "Ultra-high MCTS: sims=3000 vs depth=3",
-    "white_agent": "mcts",
-    "black_agent": "minimax",
-    "white_config": 3000,
-    "black_config": 3,
-    "white_wins": 4,
-    "draws": 5,
-    "black_wins": 1,
-    "total_games": 50,
-    "avg_plies": 115.2,
-    "elapsed_seconds": 6544.639852046967,
-    "timestamp": "2025-11-26T17:54:30.314979"
-  },
-  {
-    "experiment_id": "ULTRA041",
-    "experiment_name": "MCTS(5000) vs Minimax(3)",
-    "description": "Ultra-high MCTS: sims=5000 vs depth=3",
-    "white_agent": "mcts",
-    "black_agent": "minimax",
-    "white_config": 5000,
-    "black_config": 3,
-    "white_wins": 5,
-    "draws": 5,
-    "black_wins": 0,
-    "total_games": 50,
-    "avg_plies": 114.5,
-    "elapsed_seconds": 11703.600944757462,
-    "timestamp": "2025-11-26T21:09:33.917202"
   }
 ]

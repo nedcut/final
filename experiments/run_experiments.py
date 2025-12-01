@@ -49,10 +49,53 @@ class ExperimentResult:
     black_agent_wins: int  # After color swapping
 
 
-def create_experiment_matrix() -> List[ExperimentConfig]:
-    """Create comprehensive experiment matrix."""
+def create_experiment_matrix(
+    custom_mcts: Optional[List[int]] = None,
+    custom_minimax: Optional[List[int]] = None,
+    custom_games: int = 50
+) -> List[ExperimentConfig]:
+    """Create comprehensive experiment matrix.
+
+    Args:
+        custom_mcts: Optional list of MCTS simulation counts for custom experiments
+        custom_minimax: Optional list of Minimax depths for custom experiments
+        custom_games: Number of games per custom experiment (default: 50)
+    """
     experiments = []
     exp_id = 1
+
+    # =========================================================================
+    # 0. CUSTOM EXPERIMENTS (if specified)
+    # =========================================================================
+    if custom_mcts or custom_minimax:
+        print("Designing custom experiments...")
+        mcts_configs = custom_mcts or []
+        minimax_configs = custom_minimax or []
+
+        # If only one side specified, use defaults for the other
+        if not mcts_configs:
+            mcts_configs = [100]  # Default MCTS
+        if not minimax_configs:
+            minimax_configs = [3]  # Default Minimax
+
+        for mcts_sims in mcts_configs:
+            for mm_depth in minimax_configs:
+                experiments.append(ExperimentConfig(
+                    experiment_id=f"CUSTOM{exp_id:03d}",
+                    experiment_type="custom",
+                    white_agent="mcts",
+                    white_config={"simulations": mcts_sims},
+                    black_agent="minimax",
+                    black_config={"depth": mm_depth},
+                    num_games=custom_games,
+                    swap_colors=True,
+                    seed=exp_id * 1000,
+                    description=f"Custom: MCTS({mcts_sims}) vs Minimax({mm_depth})"
+                ))
+                exp_id += 1
+
+        # Return early - custom flags mean "run only custom experiments"
+        return experiments
 
     # =========================================================================
     # 1. TIME-MATCHED HEAD-TO-HEAD EXPERIMENTS
@@ -357,15 +400,41 @@ def save_results(results: List[ExperimentResult], output_dir: Path):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Run comprehensive experiments")
+    parser = argparse.ArgumentParser(
+        description="Run comprehensive experiments",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Examples:
+  # Run all standard experiments
+  python experiments/run_experiments.py --yes
+
+  # Run only time-matched experiments
+  python experiments/run_experiments.py --experiment-types time_matched
+
+  # Run custom high-MCTS experiments
+  python experiments/run_experiments.py --custom-mcts 300,500,1000 --custom-minimax 2,3,4
+
+  # Run ultra-high MCTS vs Minimax(3)
+  python experiments/run_experiments.py --custom-mcts 2000,3000,5000 --custom-minimax 3
+
+  # Run custom experiments with more games
+  python experiments/run_experiments.py --custom-mcts 1000 --custom-minimax 3,4 --custom-games 100
+        """
+    )
     parser.add_argument("--pythonpath", default="/Users/nedcutler/Documents/Middlebury/CS311/final/src",
                        help="PYTHONPATH for imports")
     parser.add_argument("--output-dir", default="experiments/results",
                        help="Output directory for results")
     parser.add_argument("--experiment-types", nargs='+',
-                       choices=['time_matched', 'degradation', 'baseline', 'head_to_head', 'all'],
+                       choices=['time_matched', 'degradation', 'baseline', 'head_to_head', 'all', 'custom'],
                        default=['all'],
                        help="Which experiment types to run")
+    parser.add_argument("--custom-mcts", type=str,
+                       help="Comma-separated MCTS simulation counts for custom experiments (e.g., '300,500,1000')")
+    parser.add_argument("--custom-minimax", type=str,
+                       help="Comma-separated Minimax depths for custom experiments (e.g., '2,3,4')")
+    parser.add_argument("--custom-games", type=int, default=50,
+                       help="Number of games per custom experiment (default: 50)")
     parser.add_argument("--dry-run", action="store_true",
                        help="Print experiments without running them")
     parser.add_argument("--yes", "-y", action="store_true",
@@ -373,8 +442,27 @@ def main():
 
     args = parser.parse_args()
 
+    # Parse custom configurations
+    custom_mcts = None
+    custom_minimax = None
+    if args.custom_mcts:
+        custom_mcts = [int(x.strip()) for x in args.custom_mcts.split(',')]
+    if args.custom_minimax:
+        custom_minimax = [int(x.strip()) for x in args.custom_minimax.split(',')]
+
+    # If custom configs specified, override experiment types
+    if custom_mcts or custom_minimax:
+        if 'all' in args.experiment_types or args.experiment_types == ['all']:
+            args.experiment_types = ['custom']
+        elif 'custom' not in args.experiment_types:
+            args.experiment_types.append('custom')
+
     # Create experiments
-    all_experiments = create_experiment_matrix()
+    all_experiments = create_experiment_matrix(
+        custom_mcts=custom_mcts,
+        custom_minimax=custom_minimax,
+        custom_games=args.custom_games
+    )
 
     # Filter by type
     if 'all' not in args.experiment_types:

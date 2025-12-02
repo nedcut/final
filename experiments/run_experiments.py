@@ -12,6 +12,7 @@ Results are saved to CSV files for analysis.
 """
 import argparse
 import csv
+from datetime import datetime
 import json
 import subprocess
 import sys
@@ -336,12 +337,45 @@ def run_experiment(config: ExperimentConfig, pythonpath: str) -> ExperimentResul
     )
 
 
+def get_unique_filename(output_dir: Path, base_name: str, extension: str) -> Path:
+    """Generate a unique filename by adding timestamp if file exists.
+
+    Args:
+        output_dir: Directory where file will be saved
+        base_name: Base filename without extension (e.g., "experiment_results")
+        extension: File extension without dot (e.g., "csv")
+
+    Returns:
+        Unique Path object for the file
+    """
+    filename = f"{base_name}.{extension}"
+    file_path = output_dir / filename
+
+    # If file doesn't exist, use the base name
+    if not file_path.exists():
+        return file_path
+
+    # File exists, add timestamp
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    filename = f"{base_name}_{timestamp}.{extension}"
+    file_path = output_dir / filename
+
+    # If somehow that also exists (unlikely), add a counter
+    counter = 1
+    while file_path.exists():
+        filename = f"{base_name}_{timestamp}_{counter}.{extension}"
+        file_path = output_dir / filename
+        counter += 1
+
+    return file_path
+
+
 def save_results(results: List[ExperimentResult], output_dir: Path):
     """Save experiment results to CSV and JSON."""
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    # Save detailed CSV
-    csv_path = output_dir / "experiment_results.csv"
+    # Save detailed CSV with unique filename
+    csv_path = get_unique_filename(output_dir, "experiment_results", "csv")
     with open(csv_path, 'w', newline='') as f:
         writer = csv.writer(f)
         writer.writerow([
@@ -375,8 +409,8 @@ def save_results(results: List[ExperimentResult], output_dir: Path):
 
     print(f"\nResults saved to {csv_path}")
 
-    # Save JSON for programmatic access
-    json_path = output_dir / "experiment_results.json"
+    # Save JSON for programmatic access with unique filename
+    json_path = get_unique_filename(output_dir, "experiment_results", "json")
     json_data = [
         {
             'config': asdict(r.config),

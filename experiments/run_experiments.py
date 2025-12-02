@@ -419,6 +419,9 @@ Examples:
 
   # Run custom experiments with more games
   python experiments/run_experiments.py --custom-mcts 1000 --custom-minimax 3,4 --custom-games 100
+
+  # Run a quick sanity check with at most 10 games per experiment
+  python experiments/run_experiments.py --quick --yes
         """
     )
     parser.add_argument("--pythonpath", default="/Users/nedcutler/Documents/Middlebury/CS311/final/src",
@@ -435,6 +438,10 @@ Examples:
                        help="Comma-separated Minimax depths for custom experiments (e.g., '2,3,4')")
     parser.add_argument("--custom-games", type=int, default=50,
                        help="Number of games per custom experiment (default: 50)")
+    parser.add_argument("--max-games", type=int,
+                       help="Cap the number of games per experiment (useful for quick tests)")
+    parser.add_argument("--quick", action="store_true",
+                       help="Enable quick mode (limits each experiment to at most 10 games)")
     parser.add_argument("--dry-run", action="store_true",
                        help="Print experiments without running them")
     parser.add_argument("--yes", "-y", action="store_true",
@@ -463,6 +470,17 @@ Examples:
         custom_minimax=custom_minimax,
         custom_games=args.custom_games
     )
+
+    # Apply quick/maximum game caps
+    game_cap = args.max_games
+    if args.quick:
+        game_cap = game_cap or 10
+
+    if game_cap:
+        print(f"Applying game cap: max {game_cap} games per experiment")
+        for exp in all_experiments:
+            if exp.num_games > game_cap:
+                exp.num_games = game_cap
 
     # Filter by type
     if 'all' not in args.experiment_types:

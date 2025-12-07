@@ -1,172 +1,161 @@
 # MiniChess AI Project
 
+A research project comparing Minimax with alpha-beta pruning and Monte Carlo Tree Search (MCTS) on Gardner MiniChess (5×5).
+
 ## Setup
-- Create a virtual environment: `python3 -m venv .venv`
-- Activate it:
-  - macOS/Linux: `source .venv/bin/activate`
-  - Windows (PowerShell): `.venv\\Scripts\\Activate.ps1`
-- Upgrade pip (recommended): `python -m pip install --upgrade pip`
-- Install dependencies: `pip install -r requirements.txt`
-- Install the package in editable mode: `pip install -e .`
 
-## Usage
+```bash
+# Create and activate virtual environment
+python3 -m venv .venv
+source .venv/bin/activate  # macOS/Linux
+# .venv\Scripts\Activate.ps1  # Windows PowerShell
 
-### Basic Game Play
+# Install dependencies
+pip install --upgrade pip
+pip install -r requirements.txt
+pip install -e .
+```
+
+## Quick Start
+
 ```python
 from minichess.game import initial_state
-from minichess.agents import RandomAgent
+from minichess.agents import MinimaxAgent, MCTSAgent
 
-# Create initial board state
+# Create game state
 state = initial_state()
 print(state.render())
 
-# Get legal moves
-moves = state.legal_moves()
-print(f"Legal moves: {len(moves)}")
+# Create agents
+minimax = MinimaxAgent(depth=3)
+mcts = MCTSAgent(simulations=100)
 
-# Make a move
-move = moves[0]
+# Make moves
+move = minimax.choose_move(state)
 state = state.make_move(move)
 ```
 
+## Available Agents
+
+| Agent | Description | Key Parameters |
+|-------|-------------|----------------|
+| `RandomAgent` | Uniform random move selection | `seed` (optional) |
+| `GreedyAgent` | One-ply material maximizer | - |
+| `MinimaxAgent` | Alpha-beta with transposition table & iterative deepening | `depth`, `time_limit` |
+| `MCTSAgent` | UCB1 selection with capture-biased rollouts | `simulations`, `time_limit`, `seed` |
+
+### MinimaxAgent Features
+- **Alpha-beta pruning** for efficient tree search
+- **Transposition table** to avoid re-searching positions
+- **Iterative deepening** for better move ordering and any-time behavior
+- **Move ordering** (captures first, MVV-LVA)
+
+### MCTSAgent Features
+- **UCB1 tree policy** for exploration-exploitation balance
+- **Capture-biased rollouts** for tactical play
+- **Early termination** for decisive positions
+- **Heuristic evaluation** for non-terminal rollouts
+
+## Running Games
+
 ### Interactive Demo
-The `demo.py` script provides a simple way to watch different agents play:
-
 ```bash
-# Random vs Random
-python examples/demo.py --agent1 random --agent2 random
-
-# Greedy vs Random
-python examples/demo.py --agent1 greedy --agent2 random
-
-# Minimax vs MCTS
+# Watch a single game
 python examples/demo.py --agent1 minimax --agent1-depth 3 \
   --agent2 mcts --agent2-simulations 100
 
-# For full options
+# Available agents: random, greedy, minimax, mcts
 python examples/demo.py --help
 ```
 
-**Available agents:** random, greedy, minimax, mcts
-
-**Note:** agent1 plays the White board position, agent2 plays the Black board position
-
-### Universal match runner
-For running batches of games and collecting statistics:
-
+### Batch Games
 ```bash
-# Basic usage
-python examples/match_runner.py --agent1 minimax --agent2 greedy \
-  --games 100 --swap-colors --agent1-depth 3
-
-# Advanced example with MCTS
-python examples/match_runner.py --agent1 mcts --agent1-simulations 800 \
-  --agent2 minimax --agent2-depth 2 --games 200 --seed 42
+# Run 100 games with statistics
+python examples/match_runner.py \
+  --agent1 minimax --agent1-depth 3 \
+  --agent2 mcts --agent2-simulations 100 \
+  --games 100 --swap-colors --seed 42
 ```
 
-**Flags:**
-- `--agent1/--agent2`: Agent names (random, greedy, minimax, mcts)
-- `--games`: Number of games to play
-- `--max-plies`: Ply cap per game (default: 200)
-- `--swap-colors`: Alternate which agent plays White/Black each game to reduce bias
-- `--print-every N`: Print progress every N games
+**Key Options:**
+- `--swap-colors`: Alternate which agent plays White/Black (reduces bias)
 - `--seed`: Random seed for reproducibility
+- `--print-every N`: Show progress every N games
 
-**Minimax options:** `--agent1-depth/--agent2-depth` (default: 3), `--agent1-time-limit/--agent2-time-limit`
+## Running Experiments
 
-**MCTS options:** `--agent1-simulations/--agent2-simulations`, `--agent1-rollout-depth/--agent2-rollout-depth`, `--agent1-exploration-c/--agent2-exploration-c`
-
-**Terminology:**
-- **Agent1/Agent2**: Player identity (which algorithm/configuration)
-- **White/Black**: Board position (which side of the board)
-- With `--swap-colors`, agents alternate playing White and Black positions
-
-### Running Experiments
-The experiment runner provides comprehensive testing with flexible configuration:
+### Final Research Experiments
+For comprehensive, statistically significant results:
 
 ```bash
-# Run all standard experiments (time-matched, degradation, baseline, head-to-head)
-python experiments/run_experiments.py --yes
+# Full experiment suite (~2-3 hours, 2930 games)
+python experiments/run_final_experiments.py --yes
 
-# Run specific experiment types
-python experiments/run_experiments.py --experiment-types time_matched baseline
+# Quick test run (~15 minutes)
+python experiments/run_final_experiments.py --quick --yes
 
-# Run custom high-MCTS experiments
-python experiments/run_experiments.py \
-  --custom-mcts 300,500,1000 --custom-minimax 2,3,4
+# Run specific phase only
+python experiments/run_final_experiments.py --phase 3 --yes
 
-# Run ultra-high MCTS vs Minimax(3) only
-python experiments/run_experiments.py \
-  --custom-mcts 2000,3000,5000 --custom-minimax 3
-
-# Customize number of games per experiment
-python experiments/run_experiments.py \
-  --custom-mcts 1000 --custom-minimax 3,4 --custom-games 100
-
-# Dry run to see experiment plan
-python experiments/run_experiments.py --dry-run
+# Preview what would run
+python experiments/run_final_experiments.py --dry-run
 ```
 
-**Options:**
-- `--experiment-types`: Choose which standard experiments to run (time_matched, degradation, baseline, head_to_head, all)
-- `--custom-mcts`: Comma-separated MCTS simulation counts
-- `--custom-minimax`: Comma-separated Minimax depths
-- `--custom-games`: Number of games per custom experiment (default: 50)
-- `--output-dir`: Where to save results (default: experiments/results)
-- `--dry-run`: Preview experiments without running
-- `--yes`: Skip confirmation prompt
+**Experiment Phases:**
+1. **Validation** - Verify implementations work correctly
+2. **Baseline** - Performance against weak opponents (Random, Greedy)
+3. **Head-to-Head** - Comprehensive MCTS vs Minimax matrix (18 configurations)
+4. **Time-Matched** - Fair comparison at equal computational budgets
+5. **High-Resource** - Test MCTS performance ceiling
 
-Results are saved to CSV and JSON files in the output directory.
+### Custom Experiments
+```bash
+# Custom MCTS vs Minimax configurations
+python experiments/run_experiments.py \
+  --custom-mcts 300,500,1000 \
+  --custom-minimax 2,3,4 \
+  --custom-games 50
+```
 
-### Analyzing Results
-After running experiments, analyze the data:
+Results are saved to `experiments/results/` as CSV and JSON.
+
+## Running Tests
 
 ```bash
-python experiments/analyze_results.py
+pytest                    # Run all tests
+pytest -v                 # Verbose output
+pytest tests/test_minimax_agent.py  # Specific test file
 ```
 
-This generates:
-- Win rate matrices for head-to-head matchups
-- Resource degradation curves
-- Baseline comparison statistics
-- Summary tables and visualizations
+## Project Structure
 
-### Using the greedy baseline
-```python
-from minichess.game import initial_state
-from minichess.agents import GreedyAgent
-
-state = initial_state()
-agent = GreedyAgent()
-move = agent.choose_move(state)
-state = state.make_move(move)
-print(state.render())
+```
+.
+├── src/minichess/
+│   ├── game.py           # Game rules and state management
+│   ├── evaluation.py     # Shared evaluation constants
+│   └── agents/
+│       ├── base.py       # Agent interface
+│       ├── random_agent.py
+│       ├── greedy_agent.py
+│       ├── minimax_agent.py
+│       └── mcts_agent.py
+├── examples/
+│   ├── demo.py           # Single game demo
+│   └── match_runner.py   # Batch game runner
+├── experiments/
+│   ├── run_final_experiments.py  # Comprehensive research experiments
+│   ├── run_experiments.py        # Flexible experiment runner
+│   └── results/                  # Experiment output
+├── tests/                # Unit tests
+└── docs/                 # Documentation
 ```
 
-### Using the MCTS agent
-```python
-from minichess.game import initial_state
-from minichess.agents import MCTSAgent
+## Research Documentation
 
-state = initial_state()
-# Create agent with default optimized parameters
-agent = MCTSAgent(simulations=500, rollout_depth=20)
-# Or customize with available options:
-# agent = MCTSAgent(
-#     simulations=500,          # Number of MCTS simulations per move
-#     rollout_depth=20,          # Max depth of rollout simulations
-#     rollout_policy="capture_bias",  # "capture_bias" or "random"
-#     exploration_c=1.414,       # UCB1 exploration constant (sqrt(2))
-#     time_limit=None,           # Optional time limit in seconds
-#     seed=42                    # Optional seed for reproducibility
-# )
-move = agent.choose_move(state)
-state = state.make_move(move)
-print(state.render())
-```
+- `docs/RESEARCH.md` - Research question and methodology
+- `docs/RESULTS.md` - Experimental findings (generated after experiments)
 
-**MCTS Agent Features:**
-- **Optimized for tactical play** with heuristic evaluation, move ordering, and early termination
-- **Capture-biased rollouts** by default (prioritizes captures for more realistic play)
-- **12× faster** than initial implementation through profiling-driven optimizations
-- **Competitive with Minimax** at moderate simulation counts (150+ simulations)
+---
+
+*CS311 - Artificial Intelligence, Middlebury College*

@@ -23,6 +23,9 @@ class MiniChessState:
     board: Board
     to_move: str  # 'W' or 'B'
     move_history: Tuple[Move, ...] = field(default_factory=tuple)
+    # For draw detection:
+    halfmove_clock: int = 0  # Moves since last pawn move or capture (50-move rule)
+    position_history: Tuple[Tuple[Board, str], ...] = field(default_factory=tuple)  # For repetition
 
     def legal_moves(self) -> List[Move]:
         """Enumerate all legal moves that do not leave the side to move in check."""
@@ -49,22 +52,78 @@ class MiniChessState:
         move already came from `legal_moves()` to avoid duplicate generation work."""
         if validate and move not in self.legal_moves():
             raise ValueError("Illegal move")
+
+        # Check if this is a pawn move or capture (resets halfmove clock)
+        moving_piece = self.board[move.from_sq[0]][move.from_sq[1]]
+        is_capture = self.board[move.to_sq[0]][move.to_sq[1]] is not None
+        is_pawn_move = moving_piece is not None and moving_piece.upper() == "P"
+
         next_board = _apply_move(self.board, move)
         next_history = self.move_history + (move,)
         next_player = "B" if self.to_move == "W" else "W"
-        return MiniChessState(board=next_board, to_move=next_player, move_history=next_history)
+
+        # Update halfmove clock (reset on pawn move or capture)
+        next_halfmove = 0 if (is_pawn_move or is_capture) else self.halfmove_clock + 1
+
+        # Track position for repetition detection
+        next_position_history = self.position_history + ((self.board, self.to_move),)
+
+        return MiniChessState(
+            board=next_board,
+            to_move=next_player,
+            move_history=next_history,
+            halfmove_clock=next_halfmove,
+            position_history=next_position_history,
+        )
+
+    def is_draw(self) -> bool:
+        """Check for draw by repetition, 50-move rule, or insufficient material."""
+        # Threefold repetition
+        current_pos = (self.board, self.to_move)
+        repetitions = self.position_history.count(current_pos)
+        if repetitions >= 2:  # Current position + 2 in history = 3 total
+            return True
+
+        # 50-move rule (100 halfmoves = 50 full moves)
+        if self.halfmove_clock >= 100:
+            return True
+
+        # Insufficient material (just kings remaining)
+        if self._insufficient_material():
+            return True
+
+        return False
+
+    def _insufficient_material(self) -> bool:
+        """Check if neither side can checkmate (only kings remain)."""
+        pieces = []
+        for row in self.board:
+            for piece in row:
+                if piece is not None and piece.upper() != "K":
+                    pieces.append(piece)
+        # Only kings remaining = draw
+        # (Could extend to K+B vs K, K+N vs K, but keeping simple)
+        return len(pieces) == 0
 
     def is_terminal(self) -> bool:
-        """True when the side to move has no legal moves (checkmate or stalemate)."""
+        """True when game is over (checkmate, stalemate, or draw)."""
+        if self.is_draw():
+            return True
         return not self.legal_moves()
 
     def result(self) -> float:
         """Return +1 for white win, -1 for black win, 0 for draw; requires terminal state."""
         if not self.is_terminal():
             raise ValueError("Game not finished")
+
+        # Check for draws first (repetition, 50-move, insufficient material)
+        if self.is_draw():
+            return 0.0
+
+        # No legal moves - check if checkmate or stalemate
         in_check = _is_in_check(self.board, self.to_move)
         if in_check:
-            # Current player has no moves and is in check: they lost.
+            # Checkmate: current player lost
             return 1.0 if self.to_move == "B" else -1.0
         # Stalemate
         return 0.0
@@ -76,6 +135,10 @@ class MiniChessState:
             Tuple of (is_terminal, result). If not terminal, result is 0.0.
             Result is +1 for white win, -1 for black win, 0 for draw/stalemate.
         """
+        # Check draws first (doesn't require move generation)
+        if self.is_draw():
+            return True, 0.0
+
         if self.legal_moves():
             return False, 0.0
         return True, self._result_no_moves()

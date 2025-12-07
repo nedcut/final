@@ -56,11 +56,7 @@ class MiniChessState:
 
     def is_terminal(self) -> bool:
         """True when the side to move has no legal moves (checkmate or stalemate)."""
-        moves = self.legal_moves()
-        if moves:
-            return False
-        # No legal moves: checkmate if in check, stalemate otherwise
-        return True
+        return not self.legal_moves()
 
     def result(self) -> float:
         """Return +1 for white win, -1 for black win, 0 for draw; requires terminal state."""
@@ -69,6 +65,30 @@ class MiniChessState:
         in_check = _is_in_check(self.board, self.to_move)
         if in_check:
             # Current player has no moves and is in check: they lost.
+            return 1.0 if self.to_move == "B" else -1.0
+        # Stalemate
+        return 0.0
+
+    def terminal_result(self) -> tuple[bool, float]:
+        """Check if terminal and get result in one call, avoiding duplicate move generation.
+
+        Returns:
+            Tuple of (is_terminal, result). If not terminal, result is 0.0.
+            Result is +1 for white win, -1 for black win, 0 for draw/stalemate.
+        """
+        if self.legal_moves():
+            return False, 0.0
+        return True, self._result_no_moves()
+
+    def _result_no_moves(self) -> float:
+        """Get result when already known there are no legal moves (internal optimization).
+
+        Call this only after confirming legal_moves() is empty.
+        Returns +1 for white win, -1 for black win, 0 for stalemate.
+        """
+        in_check = _is_in_check(self.board, self.to_move)
+        if in_check:
+            # Checkmate: current player lost
             return 1.0 if self.to_move == "B" else -1.0
         # Stalemate
         return 0.0

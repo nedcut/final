@@ -7,17 +7,8 @@ from dataclasses import dataclass, field
 from typing import Dict, List, Optional, Tuple
 
 from minichess.agents.base import Agent
+from minichess.evaluation import MATERIAL
 from minichess.game import Board, MiniChessState, Move
-
-# Material values for heuristic evaluation
-MATERIAL = {
-    "P": 1,
-    "N": 3,
-    "B": 3,
-    "R": 5,
-    "Q": 9,
-    "K": 1000,
-}
 
 
 @dataclass
@@ -146,13 +137,13 @@ class MCTSAgent(Agent):
         """Simulate random game play from given state to estimate value."""
         current = state
         depth = 0
-        # Optimization: Avoid redundant is_terminal() calls by checking moves directly
         while depth < self.rollout_depth:
             if self._timed_out(deadline):
                 break
             moves = current.legal_moves()
             if not moves:  # Terminal state (checkmate or stalemate)
-                return current.result()
+                # Use _result_no_moves since we already know there are no moves
+                return current._result_no_moves()
 
             # Early termination: overwhelming material advantage (saves ~10% rollout time)
             if depth > 5:  # Only check after some moves to avoid overhead

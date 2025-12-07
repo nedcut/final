@@ -1,17 +1,8 @@
 from __future__ import annotations
 
 from minichess.agents.base import Agent
+from minichess.evaluation import material_balance_for_player
 from minichess.game import MiniChessState, Move
-
-
-MATERIAL = {
-    "P": 1,
-    "N": 3,
-    "B": 3,
-    "R": 5,
-    "Q": 9,
-    "K": 1000,
-}
 
 
 class GreedyAgent(Agent):
@@ -23,24 +14,17 @@ class GreedyAgent(Agent):
         if not moves:
             raise ValueError("No legal moves available.")
 
+        player = state.to_move  # Who is making the move
         best_move = moves[0]
-        best_score = self._material_score(state.make_move(moves[0], validate=False))
+        best_score = material_balance_for_player(
+            state.make_move(moves[0], validate=False), player
+        )
 
         for move in moves[1:]:
-            score = self._material_score(state.make_move(move, validate=False))
+            score = material_balance_for_player(
+                state.make_move(move, validate=False), player
+            )
             if score > best_score:
                 best_score = score
                 best_move = move
-        # Return the move that leaves us ahead on material
         return best_move
-
-    @staticmethod
-    def _material_score(state: MiniChessState) -> int:
-        score = 0
-        for row in state.board:
-            for piece in row:
-                if piece is None:
-                    continue
-                value = MATERIAL[piece.upper()]
-                score += value if piece.isupper() else -value
-        return score if state.to_move == "W" else -score

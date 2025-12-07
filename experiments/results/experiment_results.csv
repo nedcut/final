@@ -1,3 +1,0 @@
-experiment_id,experiment_type,description,agent1_type,agent1_config,agent2_type,agent2_config,num_games,swap_colors,board_white_wins,draws,board_black_wins,agent1_wins,agent2_wins,avg_plies,total_time_sec
-TM001,time_matched,Time-matched: ~0.5s budget,mcts,"{""simulations"": 50}",minimax,"{""depth"": 3}",100,True,35,20,45,1,79,58.4,82.13619089126587
-TM002,time_matched,Time-matched: ~1.0s budget,mcts,"{""simulations"": 100}",minimax,"{""depth"": 4}",100,True,33,28,39,0,72,73.1,260.0345530509949

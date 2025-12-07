@@ -41,8 +41,12 @@ def _mcts_factory(
     return MCTSAgent(**kwargs) # type: ignore[arg-type]
 
 
+def _random_factory(seed: Optional[int] = None, **_: object) -> Agent:
+    return RandomAgent(seed=seed)
+
+
 AGENT_FACTORIES: Dict[str, Callable[..., Agent]] = {
-    "random": lambda **_: RandomAgent(),
+    "random": _random_factory,
     "greedy": lambda **_: GreedyAgent(),
     "minimax": _minimax_factory,
     "mcts": _mcts_factory,

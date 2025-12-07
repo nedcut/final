@@ -84,12 +84,21 @@ class MCTSAgent(Agent):
     ) -> None:
         """Execute one MCTS simulation: Selection, Expansion, Simulation, Backpropagation."""
         path: List[_Node] = [root]
+        visited_ids = {id(root)}  # detect graph cycles created by transpositions
         node = root
         state = root.state
 
         # Selection
         while not node.untried_moves and node.children:
             node = self._select_child(node)
+            if id(node) in visited_ids:
+                # Cycle detected: stop descending and evaluate from current state
+                result_white_perspective = self._evaluate_position(state)
+                for n in path:
+                    n.visits += 1
+                    n.value += result_white_perspective if n.state.to_move == "W" else -result_white_perspective
+                return
+            visited_ids.add(id(node))
             state = node.state
             path.append(node)
             if self._timed_out(deadline):

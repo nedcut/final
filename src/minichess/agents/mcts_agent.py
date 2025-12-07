@@ -163,7 +163,14 @@ class MCTSAgent(Agent):
         if self.rollout_policy == "capture_bias":
             captures = [m for m in moves if state.board[m.to_sq[0]][m.to_sq[1]] is not None]
             if captures:
-                return self._rng.choice(captures)
+                # Prefer taking the most valuable piece; break ties randomly.
+                def capture_value(move: Move) -> int:
+                    piece = state.board[move.to_sq[0]][move.to_sq[1]]
+                    return MATERIAL[piece.upper()] if piece else 0
+
+                best_val = max(capture_value(m) for m in captures)
+                best_caps = [m for m in captures if capture_value(m) == best_val]
+                return self._rng.choice(best_caps)
         return self._rng.choice(moves)
 
     @staticmethod

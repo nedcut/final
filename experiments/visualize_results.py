@@ -88,7 +88,6 @@ def plot_head_to_head_heatmap(results: List[Dict], output_dir: Path):
 
     plt.tight_layout()
     plt.savefig(output_dir / 'heatmap_head_to_head.png', dpi=150, bbox_inches='tight')
-    plt.savefig(output_dir / 'heatmap_head_to_head.pdf', bbox_inches='tight')
     plt.close()
     print("  ✓ Head-to-head heatmap")
 
@@ -157,7 +156,6 @@ def plot_mcts_scaling(results: List[Dict], output_dir: Path):
 
     plt.tight_layout()
     plt.savefig(output_dir / 'mcts_scaling.png', dpi=150, bbox_inches='tight')
-    plt.savefig(output_dir / 'mcts_scaling.pdf', bbox_inches='tight')
     plt.close()
     print("  ✓ MCTS scaling chart")
 
@@ -215,7 +213,6 @@ def plot_time_matched(results: List[Dict], output_dir: Path):
 
     plt.tight_layout()
     plt.savefig(output_dir / 'time_matched.png', dpi=150, bbox_inches='tight')
-    plt.savefig(output_dir / 'time_matched.pdf', bbox_inches='tight')
     plt.close()
     print("  ✓ Time-matched comparison chart")
 
@@ -293,7 +290,6 @@ def plot_baseline_comparison(results: List[Dict], output_dir: Path):
     fig.suptitle('Baseline Performance Comparison (50 games each)', fontsize=14, fontweight='bold', y=1.02)
     plt.tight_layout()
     plt.savefig(output_dir / 'baseline_comparison.png', dpi=150, bbox_inches='tight')
-    plt.savefig(output_dir / 'baseline_comparison.pdf', bbox_inches='tight')
     plt.close()
     print("  ✓ Baseline comparison chart")
 
@@ -347,7 +343,6 @@ def plot_game_length_analysis(results: List[Dict], output_dir: Path):
 
     plt.tight_layout()
     plt.savefig(output_dir / 'game_length_analysis.png', dpi=150, bbox_inches='tight')
-    plt.savefig(output_dir / 'game_length_analysis.pdf', bbox_inches='tight')
     plt.close()
     print("  ✓ Game length analysis chart")
 

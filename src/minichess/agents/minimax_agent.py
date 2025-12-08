@@ -137,6 +137,10 @@ class MinimaxAgent(Agent):
         # Order moves: TT move first, then captures, then quiet moves
         ordered_moves = self._order_moves_with_pv(state, moves, tt_move)
 
+        # Save original bounds to determine flag type
+        original_alpha = alpha
+        original_beta = beta
+
         if maximizing_turn:
             value = -math.inf
             best_move_here: Optional[Move] = None
@@ -155,9 +159,9 @@ class MinimaxAgent(Agent):
 
             # Store in transposition table
             if not self._timed_out(deadline):
-                if value <= alpha:
+                if value <= original_alpha:
                     flag = _TTFlag.UPPER
-                elif value >= beta:
+                elif value >= original_beta:
                     flag = _TTFlag.LOWER
                 else:
                     flag = _TTFlag.EXACT
@@ -183,9 +187,9 @@ class MinimaxAgent(Agent):
 
         # Store in transposition table
         if not self._timed_out(deadline):
-            if value <= alpha:
+            if value <= original_alpha:
                 flag = _TTFlag.UPPER
-            elif value >= beta:
+            elif value >= original_beta:
                 flag = _TTFlag.LOWER
             else:
                 flag = _TTFlag.EXACT

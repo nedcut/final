@@ -61,7 +61,7 @@ from minichess.agents import MinimaxAgent, MCTSAgent
 
 state = initial_state()
 minimax = MinimaxAgent(depth=3)
-mcts = MCTSAgent(num_simulations=100)
+mcts = MCTSAgent(simulations=100)
 
 # Make moves
 move = minimax.choose_move(state)

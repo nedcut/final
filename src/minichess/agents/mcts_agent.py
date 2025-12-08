@@ -91,6 +91,7 @@ class MCTSAgent(Agent):
         # Selection
         while not node.untried_moves and node.children:
             node = self._select_child(node)
+            state = node.state  # Update state before cycle check
             if id(node) in visited_ids:
                 # Cycle detected: stop descending and evaluate from current state
                 result_white_perspective = self._evaluate_position(state)
@@ -99,7 +100,6 @@ class MCTSAgent(Agent):
                     n.value += result_white_perspective if n.state.to_move == "W" else -result_white_perspective
                 return
             visited_ids.add(id(node))
-            state = node.state
             path.append(node)
             if self._timed_out(deadline):
                 break
@@ -149,6 +149,11 @@ class MCTSAgent(Agent):
         while depth < self.rollout_depth:
             if self._timed_out(deadline):
                 break
+
+            # Check for draw conditions
+            if current.is_draw():
+                return 0.0  # Draw
+
             moves = current.legal_moves()
             if not moves:  # Terminal state (checkmate or stalemate)
                 # Use _result_no_moves since we already know there are no moves

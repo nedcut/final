@@ -41,6 +41,8 @@ def create_agent(agent_type: str, **kwargs) -> Agent:
         mcts_kwargs = {}
         if "simulations" in kwargs:
             mcts_kwargs["simulations"] = kwargs["simulations"]
+        if "rollout_depth" in kwargs:
+            mcts_kwargs["rollout_depth"] = kwargs["rollout_depth"]
         return agent_class(**mcts_kwargs)
 
     return agent_class()
@@ -135,6 +137,8 @@ Note: agent1 plays the White position, agent2 plays the Black position
                        help="Number of simulations for agent2 if using MCTS (default: 100)")
     parser.add_argument("--agent1-rollout-depth", type=int, default=30,
                        help="Rollout depth for agent1 if using MCTS (default: 30)")
+    parser.add_argument("--agent2-rollout-depth", type=int, default=30,
+                       help="Rollout depth for agent2 if using MCTS (default: 30)")
 
     return parser.parse_args()
 
@@ -145,11 +149,13 @@ def main():
     # Create agents with appropriate parameters
     agent1_kwargs = {
         "depth": args.agent1_depth,
-        "simulations": args.agent1_simulations
+        "simulations": args.agent1_simulations,
+        "rollout_depth": args.agent1_rollout_depth
     }
     agent2_kwargs = {
         "depth": args.agent2_depth,
-        "simulations": args.agent2_simulations
+        "simulations": args.agent2_simulations,
+        "rollout_depth": args.agent2_rollout_depth
     }
 
     agent1 = create_agent(args.agent1, **agent1_kwargs)

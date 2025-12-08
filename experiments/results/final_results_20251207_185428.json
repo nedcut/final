@@ -1,0 +1,1097 @@
+{
+  "metadata": {
+    "timestamp": "20251207_185428",
+    "total_experiments": 40,
+    "total_games": 2930
+  },
+  "results": [
+    {
+      "config": {
+        "phase": 1,
+        "experiment_id": "P1_001",
+        "description": "[Validation] Minimax(3) vs Random",
+        "agent1_type": "minimax",
+        "agent1_config": {
+          "depth": 3
+        },
+        "agent2_type": "random",
+        "agent2_config": {},
+        "num_games": 20,
+        "seed": 1001
+      },
+      "results": {
+        "agent1_wins": 20,
+        "draws": 0,
+        "agent2_wins": 0,
+        "agent1_win_rate": 100.0,
+        "agent2_win_rate": 0.0,
+        "white_wins": 10,
+        "black_wins": 10,
+        "avg_plies": 18.7,
+        "elapsed_time": 2.7913599014282227
+      }
+    },
+    {
+      "config": {
+        "phase": 1,
+        "experiment_id": "P1_002",
+        "description": "[Validation] MCTS(100) vs Random",
+        "agent1_type": "mcts",
+        "agent1_config": {
+          "simulations": 100
+        },
+        "agent2_type": "random",
+        "agent2_config": {},
+        "num_games": 20,
+        "seed": 1002
+      },
+      "results": {
+        "agent1_wins": 19,
+        "draws": 0,
+        "agent2_wins": 1,
+        "agent1_win_rate": 95.0,
+        "agent2_win_rate": 5.0,
+        "white_wins": 9,
+        "black_wins": 11,
+        "avg_plies": 26.9,
+        "elapsed_time": 19.496997117996216
+      }
+    },
+    {
+      "config": {
+        "phase": 1,
+        "experiment_id": "P1_003",
+        "description": "[Validation] Minimax(3) vs Greedy",
+        "agent1_type": "minimax",
+        "agent1_config": {
+          "depth": 3
+        },
+        "agent2_type": "greedy",
+        "agent2_config": {},
+        "num_games": 20,
+        "seed": 1003
+      },
+      "results": {
+        "agent1_wins": 20,
+        "draws": 0,
+        "agent2_wins": 0,
+        "agent1_win_rate": 100.0,
+        "agent2_win_rate": 0.0,
+        "white_wins": 10,
+        "black_wins": 10,
+        "avg_plies": 26.5,
+        "elapsed_time": 3.0157759189605713
+      }
+    },
+    {
+      "config": {
+        "phase": 1,
+        "experiment_id": "P1_004",
+        "description": "[Validation] MCTS(100) vs Greedy",
+        "agent1_type": "mcts",
+        "agent1_config": {
+          "simulations": 100
+        },
+        "agent2_type": "greedy",
+        "agent2_config": {},
+        "num_games": 20,
+        "seed": 1004
+      },
+      "results": {
+        "agent1_wins": 10,
+        "draws": 8,
+        "agent2_wins": 2,
+        "agent1_win_rate": 70.0,
+        "agent2_win_rate": 30.0,
+        "white_wins": 5,
+        "black_wins": 7,
+        "avg_plies": 28.9,
+        "elapsed_time": 19.178657054901123
+      }
+    },
+    {
+      "config": {
+        "phase": 2,
+        "experiment_id": "P2_005",
+        "description": "[Baseline] Minimax(depth=2) vs Random",
+        "agent1_type": "minimax",
+        "agent1_config": {
+          "depth": 2
+        },
+        "agent2_type": "random",
+        "agent2_config": {},
+        "num_games": 50,
+        "seed": 2005
+      },
+      "results": {
+        "agent1_wins": 49,
+        "draws": 1,
+        "agent2_wins": 0,
+        "agent1_win_rate": 99.0,
+        "agent2_win_rate": 1.0,
+        "white_wins": 24,
+        "black_wins": 25,
+        "avg_plies": 26.4,
+        "elapsed_time": 1.7870368957519531
+      }
+    },
+    {
+      "config": {
+        "phase": 2,
+        "experiment_id": "P2_006",
+        "description": "[Baseline] Minimax(depth=3) vs Random",
+        "agent1_type": "minimax",
+        "agent1_config": {
+          "depth": 3
+        },
+        "agent2_type": "random",
+        "agent2_config": {},
+        "num_games": 50,
+        "seed": 2006
+      },
+      "results": {
+        "agent1_wins": 50,
+        "draws": 0,
+        "agent2_wins": 0,
+        "agent1_win_rate": 100.0,
+        "agent2_win_rate": 0.0,
+        "white_wins": 25,
+        "black_wins": 25,
+        "avg_plies": 17.4,
+        "elapsed_time": 5.846864938735962
+      }
+    },
+    {
+      "config": {
+        "phase": 2,
+        "experiment_id": "P2_007",
+        "description": "[Baseline] Minimax(depth=4) vs Random",
+        "agent1_type": "minimax",
+        "agent1_config": {
+          "depth": 4
+        },
+        "agent2_type": "random",
+        "agent2_config": {},
+        "num_games": 50,
+        "seed": 2007
+      },
+      "results": {
+        "agent1_wins": 50,
+        "draws": 0,
+        "agent2_wins": 0,
+        "agent1_win_rate": 100.0,
+        "agent2_win_rate": 0.0,
+        "white_wins": 25,
+        "black_wins": 25,
+        "avg_plies": 18.9,
+        "elapsed_time": 17.42076587677002
+      }
+    },
+    {
+      "config": {
+        "phase": 2,
+        "experiment_id": "P2_008",
+        "description": "[Baseline] MCTS(sims=50) vs Random",
+        "agent1_type": "mcts",
+        "agent1_config": {
+          "simulations": 50
+        },
+        "agent2_type": "random",
+        "agent2_config": {},
+        "num_games": 50,
+        "seed": 2008
+      },
+      "results": {
+        "agent1_wins": 45,
+        "draws": 3,
+        "agent2_wins": 2,
+        "agent1_win_rate": 93.0,
+        "agent2_win_rate": 7.000000000000001,
+        "white_wins": 22,
+        "black_wins": 25,
+        "avg_plies": 30.1,
+        "elapsed_time": 28.444714069366455
+      }
+    },
+    {
+      "config": {
+        "phase": 2,
+        "experiment_id": "P2_009",
+        "description": "[Baseline] MCTS(sims=100) vs Random",
+        "agent1_type": "mcts",
+        "agent1_config": {
+          "simulations": 100
+        },
+        "agent2_type": "random",
+        "agent2_config": {},
+        "num_games": 50,
+        "seed": 2009
+      },
+      "results": {
+        "agent1_wins": 47,
+        "draws": 3,
+        "agent2_wins": 0,
+        "agent1_win_rate": 97.0,
+        "agent2_win_rate": 3.0,
+        "white_wins": 22,
+        "black_wins": 25,
+        "avg_plies": 25.2,
+        "elapsed_time": 42.599305152893066
+      }
+    },
+    {
+      "config": {
+        "phase": 2,
+        "experiment_id": "P2_010",
+        "description": "[Baseline] MCTS(sims=200) vs Random",
+        "agent1_type": "mcts",
+        "agent1_config": {
+          "simulations": 200
+        },
+        "agent2_type": "random",
+        "agent2_config": {},
+        "num_games": 50,
+        "seed": 2010
+      },
+      "results": {
+        "agent1_wins": 48,
+        "draws": 2,
+        "agent2_wins": 0,
+        "agent1_win_rate": 98.0,
+        "agent2_win_rate": 2.0,
+        "white_wins": 24,
+        "black_wins": 24,
+        "avg_plies": 25.1,
+        "elapsed_time": 83.76890969276428
+      }
+    },
+    {
+      "config": {
+        "phase": 2,
+        "experiment_id": "P2_011",
+        "description": "[Baseline] Minimax(depth=2) vs Greedy",
+        "agent1_type": "minimax",
+        "agent1_config": {
+          "depth": 2
+        },
+        "agent2_type": "greedy",
+        "agent2_config": {},
+        "num_games": 50,
+        "seed": 2011
+      },
+      "results": {
+        "agent1_wins": 50,
+        "draws": 0,
+        "agent2_wins": 0,
+        "agent1_win_rate": 100.0,
+        "agent2_win_rate": 0.0,
+        "white_wins": 25,
+        "black_wins": 25,
+        "avg_plies": 74.5,
+        "elapsed_time": 2.9826579093933105
+      }
+    },
+    {
+      "config": {
+        "phase": 2,
+        "experiment_id": "P2_012",
+        "description": "[Baseline] Minimax(depth=3) vs Greedy",
+        "agent1_type": "minimax",
+        "agent1_config": {
+          "depth": 3
+        },
+        "agent2_type": "greedy",
+        "agent2_config": {},
+        "num_games": 50,
+        "seed": 2012
+      },
+      "results": {
+        "agent1_wins": 50,
+        "draws": 0,
+        "agent2_wins": 0,
+        "agent1_win_rate": 100.0,
+        "agent2_win_rate": 0.0,
+        "white_wins": 25,
+        "black_wins": 25,
+        "avg_plies": 26.5,
+        "elapsed_time": 7.31629204750061
+      }
+    },
+    {
+      "config": {
+        "phase": 2,
+        "experiment_id": "P2_013",
+        "description": "[Baseline] Minimax(depth=4) vs Greedy",
+        "agent1_type": "minimax",
+        "agent1_config": {
+          "depth": 4
+        },
+        "agent2_type": "greedy",
+        "agent2_config": {},
+        "num_games": 50,
+        "seed": 2013
+      },
+      "results": {
+        "agent1_wins": 50,
+        "draws": 0,
+        "agent2_wins": 0,
+        "agent1_win_rate": 100.0,
+        "agent2_win_rate": 0.0,
+        "white_wins": 25,
+        "black_wins": 25,
+        "avg_plies": 28.5,
+        "elapsed_time": 18.077962160110474
+      }
+    },
+    {
+      "config": {
+        "phase": 2,
+        "experiment_id": "P2_014",
+        "description": "[Baseline] MCTS(sims=50) vs Greedy",
+        "agent1_type": "mcts",
+        "agent1_config": {
+          "simulations": 50
+        },
+        "agent2_type": "greedy",
+        "agent2_config": {},
+        "num_games": 50,
+        "seed": 2014
+      },
+      "results": {
+        "agent1_wins": 18,
+        "draws": 29,
+        "agent2_wins": 3,
+        "agent1_win_rate": 65.0,
+        "agent2_win_rate": 35.0,
+        "white_wins": 10,
+        "black_wins": 11,
+        "avg_plies": 35.4,
+        "elapsed_time": 29.21207284927368
+      }
+    },
+    {
+      "config": {
+        "phase": 2,
+        "experiment_id": "P2_015",
+        "description": "[Baseline] MCTS(sims=100) vs Greedy",
+        "agent1_type": "mcts",
+        "agent1_config": {
+          "simulations": 100
+        },
+        "agent2_type": "greedy",
+        "agent2_config": {},
+        "num_games": 50,
+        "seed": 2015
+      },
+      "results": {
+        "agent1_wins": 27,
+        "draws": 22,
+        "agent2_wins": 1,
+        "agent1_win_rate": 76.0,
+        "agent2_win_rate": 24.0,
+        "white_wins": 15,
+        "black_wins": 13,
+        "avg_plies": 33.2,
+        "elapsed_time": 59.07366394996643
+      }
+    },
+    {
+      "config": {
+        "phase": 2,
+        "experiment_id": "P2_016",
+        "description": "[Baseline] MCTS(sims=200) vs Greedy",
+        "agent1_type": "mcts",
+        "agent1_config": {
+          "simulations": 200
+        },
+        "agent2_type": "greedy",
+        "agent2_config": {},
+        "num_games": 50,
+        "seed": 2016
+      },
+      "results": {
+        "agent1_wins": 42,
+        "draws": 8,
+        "agent2_wins": 0,
+        "agent1_win_rate": 92.0,
+        "agent2_win_rate": 8.0,
+        "white_wins": 19,
+        "black_wins": 23,
+        "avg_plies": 27.4,
+        "elapsed_time": 93.91392397880554
+      }
+    },
+    {
+      "config": {
+        "phase": 3,
+        "experiment_id": "P3_017",
+        "description": "[H2H] MCTS(50) vs Minimax(2)",
+        "agent1_type": "mcts",
+        "agent1_config": {
+          "simulations": 50
+        },
+        "agent2_type": "minimax",
+        "agent2_config": {
+          "depth": 2
+        },
+        "num_games": 100,
+        "seed": 3017
+      },
+      "results": {
+        "agent1_wins": 2,
+        "draws": 7,
+        "agent2_wins": 91,
+        "agent1_win_rate": 5.5,
+        "agent2_win_rate": 94.5,
+        "white_wins": 43,
+        "black_wins": 50,
+        "avg_plies": 46.5,
+        "elapsed_time": 78.12768483161926
+      }
+    },
+    {
+      "config": {
+        "phase": 3,
+        "experiment_id": "P3_018",
+        "description": "[H2H] MCTS(50) vs Minimax(3)",
+        "agent1_type": "mcts",
+        "agent1_config": {
+          "simulations": 50
+        },
+        "agent2_type": "minimax",
+        "agent2_config": {
+          "depth": 3
+        },
+        "num_games": 100,
+        "seed": 3018
+      },
+      "results": {
+        "agent1_wins": 2,
+        "draws": 0,
+        "agent2_wins": 98,
+        "agent1_win_rate": 2.0,
+        "agent2_win_rate": 98.0,
+        "white_wins": 50,
+        "black_wins": 50,
+        "avg_plies": 27.0,
+        "elapsed_time": 62.467490911483765
+      }
+    },
+    {
+      "config": {
+        "phase": 3,
+        "experiment_id": "P3_019",
+        "description": "[H2H] MCTS(50) vs Minimax(4)",
+        "agent1_type": "mcts",
+        "agent1_config": {
+          "simulations": 50
+        },
+        "agent2_type": "minimax",
+        "agent2_config": {
+          "depth": 4
+        },
+        "num_games": 100,
+        "seed": 3019
+      },
+      "results": {
+        "agent1_wins": 0,
+        "draws": 0,
+        "agent2_wins": 100,
+        "agent1_win_rate": 0.0,
+        "agent2_win_rate": 100.0,
+        "white_wins": 50,
+        "black_wins": 50,
+        "avg_plies": 29.7,
+        "elapsed_time": 102.87139821052551
+      }
+    },
+    {
+      "config": {
+        "phase": 3,
+        "experiment_id": "P3_020",
+        "description": "[H2H] MCTS(100) vs Minimax(2)",
+        "agent1_type": "mcts",
+        "agent1_config": {
+          "simulations": 100
+        },
+        "agent2_type": "minimax",
+        "agent2_config": {
+          "depth": 2
+        },
+        "num_games": 100,
+        "seed": 3020
+      },
+      "results": {
+        "agent1_wins": 6,
+        "draws": 10,
+        "agent2_wins": 84,
+        "agent1_win_rate": 11.0,
+        "agent2_win_rate": 89.0,
+        "white_wins": 43,
+        "black_wins": 47,
+        "avg_plies": 51.8,
+        "elapsed_time": 164.34628295898438
+      }
+    },
+    {
+      "config": {
+        "phase": 3,
+        "experiment_id": "P3_021",
+        "description": "[H2H] MCTS(100) vs Minimax(3)",
+        "agent1_type": "mcts",
+        "agent1_config": {
+          "simulations": 100
+        },
+        "agent2_type": "minimax",
+        "agent2_config": {
+          "depth": 3
+        },
+        "num_games": 100,
+        "seed": 3021
+      },
+      "results": {
+        "agent1_wins": 3,
+        "draws": 5,
+        "agent2_wins": 92,
+        "agent1_win_rate": 5.5,
+        "agent2_win_rate": 94.5,
+        "white_wins": 48,
+        "black_wins": 47,
+        "avg_plies": 36.9,
+        "elapsed_time": 202.03181385993958
+      }
+    },
+    {
+      "config": {
+        "phase": 3,
+        "experiment_id": "P3_022",
+        "description": "[H2H] MCTS(100) vs Minimax(4)",
+        "agent1_type": "mcts",
+        "agent1_config": {
+          "simulations": 100
+        },
+        "agent2_type": "minimax",
+        "agent2_config": {
+          "depth": 4
+        },
+        "num_games": 100,
+        "seed": 3022
+      },
+      "results": {
+        "agent1_wins": 0,
+        "draws": 2,
+        "agent2_wins": 98,
+        "agent1_win_rate": 1.0,
+        "agent2_win_rate": 99.0,
+        "white_wins": 49,
+        "black_wins": 49,
+        "avg_plies": 32.9,
+        "elapsed_time": 164.80962777137756
+      }
+    },
+    {
+      "config": {
+        "phase": 3,
+        "experiment_id": "P3_023",
+        "description": "[H2H] MCTS(150) vs Minimax(2)",
+        "agent1_type": "mcts",
+        "agent1_config": {
+          "simulations": 150
+        },
+        "agent2_type": "minimax",
+        "agent2_config": {
+          "depth": 2
+        },
+        "num_games": 100,
+        "seed": 3023
+      },
+      "results": {
+        "agent1_wins": 5,
+        "draws": 27,
+        "agent2_wins": 68,
+        "agent1_win_rate": 18.5,
+        "agent2_win_rate": 81.5,
+        "white_wins": 37,
+        "black_wins": 36,
+        "avg_plies": 67.5,
+        "elapsed_time": 344.44822096824646
+      }
+    },
+    {
+      "config": {
+        "phase": 3,
+        "experiment_id": "P3_024",
+        "description": "[H2H] MCTS(150) vs Minimax(3)",
+        "agent1_type": "mcts",
+        "agent1_config": {
+          "simulations": 150
+        },
+        "agent2_type": "minimax",
+        "agent2_config": {
+          "depth": 3
+        },
+        "num_games": 100,
+        "seed": 3024
+      },
+      "results": {
+        "agent1_wins": 4,
+        "draws": 9,
+        "agent2_wins": 87,
+        "agent1_win_rate": 8.5,
+        "agent2_win_rate": 91.5,
+        "white_wins": 45,
+        "black_wins": 46,
+        "avg_plies": 44.4,
+        "elapsed_time": 256.6580181121826
+      }
+    },
+    {
+      "config": {
+        "phase": 3,
+        "experiment_id": "P3_025",
+        "description": "[H2H] MCTS(150) vs Minimax(4)",
+        "agent1_type": "mcts",
+        "agent1_config": {
+          "simulations": 150
+        },
+        "agent2_type": "minimax",
+        "agent2_config": {
+          "depth": 4
+        },
+        "num_games": 100,
+        "seed": 3025
+      },
+      "results": {
+        "agent1_wins": 0,
+        "draws": 1,
+        "agent2_wins": 99,
+        "agent1_win_rate": 0.5,
+        "agent2_win_rate": 99.5,
+        "white_wins": 49,
+        "black_wins": 50,
+        "avg_plies": 32.3,
+        "elapsed_time": 219.31220293045044
+      }
+    },
+    {
+      "config": {
+        "phase": 3,
+        "experiment_id": "P3_026",
+        "description": "[H2H] MCTS(200) vs Minimax(2)",
+        "agent1_type": "mcts",
+        "agent1_config": {
+          "simulations": 200
+        },
+        "agent2_type": "minimax",
+        "agent2_config": {
+          "depth": 2
+        },
+        "num_games": 100,
+        "seed": 3026
+      },
+      "results": {
+        "agent1_wins": 15,
+        "draws": 18,
+        "agent2_wins": 67,
+        "agent1_win_rate": 24.0,
+        "agent2_win_rate": 76.0,
+        "white_wins": 44,
+        "black_wins": 38,
+        "avg_plies": 74.6,
+        "elapsed_time": 1347.9686040878296
+      }
+    },
+    {
+      "config": {
+        "phase": 3,
+        "experiment_id": "P3_027",
+        "description": "[H2H] MCTS(200) vs Minimax(3)",
+        "agent1_type": "mcts",
+        "agent1_config": {
+          "simulations": 200
+        },
+        "agent2_type": "minimax",
+        "agent2_config": {
+          "depth": 3
+        },
+        "num_games": 100,
+        "seed": 3027
+      },
+      "results": {
+        "agent1_wins": 7,
+        "draws": 9,
+        "agent2_wins": 84,
+        "agent1_win_rate": 11.5,
+        "agent2_win_rate": 88.5,
+        "white_wins": 46,
+        "black_wins": 45,
+        "avg_plies": 50.2,
+        "elapsed_time": 356.5579171180725
+      }
+    },
+    {
+      "config": {
+        "phase": 3,
+        "experiment_id": "P3_028",
+        "description": "[H2H] MCTS(200) vs Minimax(4)",
+        "agent1_type": "mcts",
+        "agent1_config": {
+          "simulations": 200
+        },
+        "agent2_type": "minimax",
+        "agent2_config": {
+          "depth": 4
+        },
+        "num_games": 100,
+        "seed": 3028
+      },
+      "results": {
+        "agent1_wins": 1,
+        "draws": 2,
+        "agent2_wins": 97,
+        "agent1_win_rate": 2.0,
+        "agent2_win_rate": 98.0,
+        "white_wins": 49,
+        "black_wins": 49,
+        "avg_plies": 43.8,
+        "elapsed_time": 357.1532349586487
+      }
+    },
+    {
+      "config": {
+        "phase": 3,
+        "experiment_id": "P3_029",
+        "description": "[H2H] MCTS(300) vs Minimax(2)",
+        "agent1_type": "mcts",
+        "agent1_config": {
+          "simulations": 300
+        },
+        "agent2_type": "minimax",
+        "agent2_config": {
+          "depth": 2
+        },
+        "num_games": 100,
+        "seed": 3029
+      },
+      "results": {
+        "agent1_wins": 18,
+        "draws": 24,
+        "agent2_wins": 58,
+        "agent1_win_rate": 30.0,
+        "agent2_win_rate": 70.0,
+        "white_wins": 38,
+        "black_wins": 38,
+        "avg_plies": 81.2,
+        "elapsed_time": 779.0399987697601
+      }
+    },
+    {
+      "config": {
+        "phase": 3,
+        "experiment_id": "P3_030",
+        "description": "[H2H] MCTS(300) vs Minimax(3)",
+        "agent1_type": "mcts",
+        "agent1_config": {
+          "simulations": 300
+        },
+        "agent2_type": "minimax",
+        "agent2_config": {
+          "depth": 3
+        },
+        "num_games": 100,
+        "seed": 3030
+      },
+      "results": {
+        "agent1_wins": 16,
+        "draws": 9,
+        "agent2_wins": 75,
+        "agent1_win_rate": 20.5,
+        "agent2_win_rate": 79.5,
+        "white_wins": 48,
+        "black_wins": 43,
+        "avg_plies": 57.4,
+        "elapsed_time": 620.8381259441376
+      }
+    },
+    {
+      "config": {
+        "phase": 3,
+        "experiment_id": "P3_031",
+        "description": "[H2H] MCTS(300) vs Minimax(4)",
+        "agent1_type": "mcts",
+        "agent1_config": {
+          "simulations": 300
+        },
+        "agent2_type": "minimax",
+        "agent2_config": {
+          "depth": 4
+        },
+        "num_games": 100,
+        "seed": 3031
+      },
+      "results": {
+        "agent1_wins": 0,
+        "draws": 7,
+        "agent2_wins": 93,
+        "agent1_win_rate": 3.5000000000000004,
+        "agent2_win_rate": 96.5,
+        "white_wins": 49,
+        "black_wins": 44,
+        "avg_plies": 47.5,
+        "elapsed_time": 559.0141401290894
+      }
+    },
+    {
+      "config": {
+        "phase": 3,
+        "experiment_id": "P3_032",
+        "description": "[H2H] MCTS(500) vs Minimax(2)",
+        "agent1_type": "mcts",
+        "agent1_config": {
+          "simulations": 500
+        },
+        "agent2_type": "minimax",
+        "agent2_config": {
+          "depth": 2
+        },
+        "num_games": 100,
+        "seed": 3032
+      },
+      "results": {
+        "agent1_wins": 26,
+        "draws": 24,
+        "agent2_wins": 50,
+        "agent1_win_rate": 38.0,
+        "agent2_win_rate": 62.0,
+        "white_wins": 40,
+        "black_wins": 36,
+        "avg_plies": 85.0,
+        "elapsed_time": 1380.333859205246
+      }
+    },
+    {
+      "config": {
+        "phase": 3,
+        "experiment_id": "P3_033",
+        "description": "[H2H] MCTS(500) vs Minimax(3)",
+        "agent1_type": "mcts",
+        "agent1_config": {
+          "simulations": 500
+        },
+        "agent2_type": "minimax",
+        "agent2_config": {
+          "depth": 3
+        },
+        "num_games": 100,
+        "seed": 3033
+      },
+      "results": {
+        "agent1_wins": 14,
+        "draws": 15,
+        "agent2_wins": 71,
+        "agent1_win_rate": 21.5,
+        "agent2_win_rate": 78.5,
+        "white_wins": 43,
+        "black_wins": 42,
+        "avg_plies": 58.0,
+        "elapsed_time": 948.3142828941345
+      }
+    },
+    {
+      "config": {
+        "phase": 3,
+        "experiment_id": "P3_034",
+        "description": "[H2H] MCTS(500) vs Minimax(4)",
+        "agent1_type": "mcts",
+        "agent1_config": {
+          "simulations": 500
+        },
+        "agent2_type": "minimax",
+        "agent2_config": {
+          "depth": 4
+        },
+        "num_games": 100,
+        "seed": 3034
+      },
+      "results": {
+        "agent1_wins": 1,
+        "draws": 7,
+        "agent2_wins": 92,
+        "agent1_win_rate": 4.5,
+        "agent2_win_rate": 95.5,
+        "white_wins": 47,
+        "black_wins": 46,
+        "avg_plies": 51.2,
+        "elapsed_time": 931.4546570777893
+      }
+    },
+    {
+      "config": {
+        "phase": 4,
+        "experiment_id": "P4_035",
+        "description": "[Time-Matched ~0.5s] MCTS(50) vs Minimax(3)",
+        "agent1_type": "mcts",
+        "agent1_config": {
+          "simulations": 50
+        },
+        "agent2_type": "minimax",
+        "agent2_config": {
+          "depth": 3
+        },
+        "num_games": 100,
+        "seed": 4035
+      },
+      "results": {
+        "agent1_wins": 1,
+        "draws": 1,
+        "agent2_wins": 98,
+        "agent1_win_rate": 1.5,
+        "agent2_win_rate": 98.5,
+        "white_wins": 51,
+        "black_wins": 48,
+        "avg_plies": 31.5,
+        "elapsed_time": 71.87601709365845
+      }
+    },
+    {
+      "config": {
+        "phase": 4,
+        "experiment_id": "P4_036",
+        "description": "[Time-Matched ~1.0s] MCTS(100) vs Minimax(4)",
+        "agent1_type": "mcts",
+        "agent1_config": {
+          "simulations": 100
+        },
+        "agent2_type": "minimax",
+        "agent2_config": {
+          "depth": 4
+        },
+        "num_games": 100,
+        "seed": 4036
+      },
+      "results": {
+        "agent1_wins": 1,
+        "draws": 1,
+        "agent2_wins": 98,
+        "agent1_win_rate": 1.5,
+        "agent2_win_rate": 98.5,
+        "white_wins": 51,
+        "black_wins": 48,
+        "avg_plies": 34.3,
+        "elapsed_time": 172.61451196670532
+      }
+    },
+    {
+      "config": {
+        "phase": 4,
+        "experiment_id": "P4_037",
+        "description": "[Time-Matched ~2.0s] MCTS(200) vs Minimax(4)",
+        "agent1_type": "mcts",
+        "agent1_config": {
+          "simulations": 200
+        },
+        "agent2_type": "minimax",
+        "agent2_config": {
+          "depth": 4
+        },
+        "num_games": 100,
+        "seed": 4037
+      },
+      "results": {
+        "agent1_wins": 1,
+        "draws": 6,
+        "agent2_wins": 93,
+        "agent1_win_rate": 4.0,
+        "agent2_win_rate": 96.0,
+        "white_wins": 50,
+        "black_wins": 44,
+        "avg_plies": 43.6,
+        "elapsed_time": 353.67251801490784
+      }
+    },
+    {
+      "config": {
+        "phase": 5,
+        "experiment_id": "P5_038",
+        "description": "[High-MCTS] MCTS(500) vs Minimax(3)",
+        "agent1_type": "mcts",
+        "agent1_config": {
+          "simulations": 500
+        },
+        "agent2_type": "minimax",
+        "agent2_config": {
+          "depth": 3
+        },
+        "num_games": 50,
+        "seed": 5038
+      },
+      "results": {
+        "agent1_wins": 6,
+        "draws": 8,
+        "agent2_wins": 36,
+        "agent1_win_rate": 20.0,
+        "agent2_win_rate": 80.0,
+        "white_wins": 22,
+        "black_wins": 20,
+        "avg_plies": 53.9,
+        "elapsed_time": 457.83085894584656
+      }
+    },
+    {
+      "config": {
+        "phase": 5,
+        "experiment_id": "P5_039",
+        "description": "[High-MCTS] MCTS(750) vs Minimax(3)",
+        "agent1_type": "mcts",
+        "agent1_config": {
+          "simulations": 750
+        },
+        "agent2_type": "minimax",
+        "agent2_config": {
+          "depth": 3
+        },
+        "num_games": 50,
+        "seed": 5039
+      },
+      "results": {
+        "agent1_wins": 7,
+        "draws": 15,
+        "agent2_wins": 28,
+        "agent1_win_rate": 28.999999999999996,
+        "agent2_win_rate": 71.0,
+        "white_wins": 19,
+        "black_wins": 16,
+        "avg_plies": 59.3,
+        "elapsed_time": 769.8201248645782
+      }
+    },
+    {
+      "config": {
+        "phase": 5,
+        "experiment_id": "P5_040",
+        "description": "[High-MCTS] MCTS(1000) vs Minimax(3)",
+        "agent1_type": "mcts",
+        "agent1_config": {
+          "simulations": 1000
+        },
+        "agent2_type": "minimax",
+        "agent2_config": {
+          "depth": 3
+        },
+        "num_games": 50,
+        "seed": 5040
+      },
+      "results": {
+        "agent1_wins": 8,
+        "draws": 6,
+        "agent2_wins": 36,
+        "agent1_win_rate": 22.0,
+        "agent2_win_rate": 78.0,
+        "white_wins": 20,
+        "black_wins": 24,
+        "avg_plies": 57.9,
+        "elapsed_time": 1037.4127640724182
+      }
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+phase,experiment_id,description,agent1_type,agent1_config,agent2_type,agent2_config,num_games,agent1_wins,draws,agent2_wins,agent1_win_rate,agent2_win_rate,white_wins,black_wins,avg_plies,elapsed_time
+1,P1_001,[Validation] Minimax(3) vs Random,minimax,"{""depth"": 3}",random,{},20,20,0,0,100.0,0.0,10,10,18.7,2.8
+1,P1_002,[Validation] MCTS(100) vs Random,mcts,"{""simulations"": 100}",random,{},20,19,0,1,95.0,5.0,9,11,26.9,19.5
+1,P1_003,[Validation] Minimax(3) vs Greedy,minimax,"{""depth"": 3}",greedy,{},20,20,0,0,100.0,0.0,10,10,26.5,3.0
+1,P1_004,[Validation] MCTS(100) vs Greedy,mcts,"{""simulations"": 100}",greedy,{},20,10,8,2,70.0,30.0,5,7,28.9,19.2
+2,P2_005,[Baseline] Minimax(depth=2) vs Random,minimax,"{""depth"": 2}",random,{},50,49,1,0,99.0,1.0,24,25,26.4,1.8
+2,P2_006,[Baseline] Minimax(depth=3) vs Random,minimax,"{""depth"": 3}",random,{},50,50,0,0,100.0,0.0,25,25,17.4,5.8
+2,P2_007,[Baseline] Minimax(depth=4) vs Random,minimax,"{""depth"": 4}",random,{},50,50,0,0,100.0,0.0,25,25,18.9,17.4
+2,P2_008,[Baseline] MCTS(sims=50) vs Random,mcts,"{""simulations"": 50}",random,{},50,45,3,2,93.0,7.0,22,25,30.1,28.4
+2,P2_009,[Baseline] MCTS(sims=100) vs Random,mcts,"{""simulations"": 100}",random,{},50,47,3,0,97.0,3.0,22,25,25.2,42.6
+2,P2_010,[Baseline] MCTS(sims=200) vs Random,mcts,"{""simulations"": 200}",random,{},50,48,2,0,98.0,2.0,24,24,25.1,83.8
+2,P2_011,[Baseline] Minimax(depth=2) vs Greedy,minimax,"{""depth"": 2}",greedy,{},50,50,0,0,100.0,0.0,25,25,74.5,3.0
+2,P2_012,[Baseline] Minimax(depth=3) vs Greedy,minimax,"{""depth"": 3}",greedy,{},50,50,0,0,100.0,0.0,25,25,26.5,7.3
+2,P2_013,[Baseline] Minimax(depth=4) vs Greedy,minimax,"{""depth"": 4}",greedy,{},50,50,0,0,100.0,0.0,25,25,28.5,18.1
+2,P2_014,[Baseline] MCTS(sims=50) vs Greedy,mcts,"{""simulations"": 50}",greedy,{},50,18,29,3,65.0,35.0,10,11,35.4,29.2
+2,P2_015,[Baseline] MCTS(sims=100) vs Greedy,mcts,"{""simulations"": 100}",greedy,{},50,27,22,1,76.0,24.0,15,13,33.2,59.1
+2,P2_016,[Baseline] MCTS(sims=200) vs Greedy,mcts,"{""simulations"": 200}",greedy,{},50,42,8,0,92.0,8.0,19,23,27.4,93.9
+3,P3_017,[H2H] MCTS(50) vs Minimax(2),mcts,"{""simulations"": 50}",minimax,"{""depth"": 2}",100,2,7,91,5.5,94.5,43,50,46.5,78.1
+3,P3_018,[H2H] MCTS(50) vs Minimax(3),mcts,"{""simulations"": 50}",minimax,"{""depth"": 3}",100,2,0,98,2.0,98.0,50,50,27.0,62.5
+3,P3_019,[H2H] MCTS(50) vs Minimax(4),mcts,"{""simulations"": 50}",minimax,"{""depth"": 4}",100,0,0,100,0.0,100.0,50,50,29.7,102.9
+3,P3_020,[H2H] MCTS(100) vs Minimax(2),mcts,"{""simulations"": 100}",minimax,"{""depth"": 2}",100,6,10,84,11.0,89.0,43,47,51.8,164.3
+3,P3_021,[H2H] MCTS(100) vs Minimax(3),mcts,"{""simulations"": 100}",minimax,"{""depth"": 3}",100,3,5,92,5.5,94.5,48,47,36.9,202.0
+3,P3_022,[H2H] MCTS(100) vs Minimax(4),mcts,"{""simulations"": 100}",minimax,"{""depth"": 4}",100,0,2,98,1.0,99.0,49,49,32.9,164.8
+3,P3_023,[H2H] MCTS(150) vs Minimax(2),mcts,"{""simulations"": 150}",minimax,"{""depth"": 2}",100,5,27,68,18.5,81.5,37,36,67.5,344.4
+3,P3_024,[H2H] MCTS(150) vs Minimax(3),mcts,"{""simulations"": 150}",minimax,"{""depth"": 3}",100,4,9,87,8.5,91.5,45,46,44.4,256.7
+3,P3_025,[H2H] MCTS(150) vs Minimax(4),mcts,"{""simulations"": 150}",minimax,"{""depth"": 4}",100,0,1,99,0.5,99.5,49,50,32.3,219.3
+3,P3_026,[H2H] MCTS(200) vs Minimax(2),mcts,"{""simulations"": 200}",minimax,"{""depth"": 2}",100,15,18,67,24.0,76.0,44,38,74.6,1348.0
+3,P3_027,[H2H] MCTS(200) vs Minimax(3),mcts,"{""simulations"": 200}",minimax,"{""depth"": 3}",100,7,9,84,11.5,88.5,46,45,50.2,356.6
+3,P3_028,[H2H] MCTS(200) vs Minimax(4),mcts,"{""simulations"": 200}",minimax,"{""depth"": 4}",100,1,2,97,2.0,98.0,49,49,43.8,357.2
+3,P3_029,[H2H] MCTS(300) vs Minimax(2),mcts,"{""simulations"": 300}",minimax,"{""depth"": 2}",100,18,24,58,30.0,70.0,38,38,81.2,779.0
+3,P3_030,[H2H] MCTS(300) vs Minimax(3),mcts,"{""simulations"": 300}",minimax,"{""depth"": 3}",100,16,9,75,20.5,79.5,48,43,57.4,620.8
+3,P3_031,[H2H] MCTS(300) vs Minimax(4),mcts,"{""simulations"": 300}",minimax,"{""depth"": 4}",100,0,7,93,3.5,96.5,49,44,47.5,559.0
+3,P3_032,[H2H] MCTS(500) vs Minimax(2),mcts,"{""simulations"": 500}",minimax,"{""depth"": 2}",100,26,24,50,38.0,62.0,40,36,85.0,1380.3
+3,P3_033,[H2H] MCTS(500) vs Minimax(3),mcts,"{""simulations"": 500}",minimax,"{""depth"": 3}",100,14,15,71,21.5,78.5,43,42,58.0,948.3
+3,P3_034,[H2H] MCTS(500) vs Minimax(4),mcts,"{""simulations"": 500}",minimax,"{""depth"": 4}",100,1,7,92,4.5,95.5,47,46,51.2,931.5
+4,P4_035,[Time-Matched ~0.5s] MCTS(50) vs Minimax(3),mcts,"{""simulations"": 50}",minimax,"{""depth"": 3}",100,1,1,98,1.5,98.5,51,48,31.5,71.9
+4,P4_036,[Time-Matched ~1.0s] MCTS(100) vs Minimax(4),mcts,"{""simulations"": 100}",minimax,"{""depth"": 4}",100,1,1,98,1.5,98.5,51,48,34.3,172.6
+4,P4_037,[Time-Matched ~2.0s] MCTS(200) vs Minimax(4),mcts,"{""simulations"": 200}",minimax,"{""depth"": 4}",100,1,6,93,4.0,96.0,50,44,43.6,353.7
+5,P5_038,[High-MCTS] MCTS(500) vs Minimax(3),mcts,"{""simulations"": 500}",minimax,"{""depth"": 3}",50,6,8,36,20.0,80.0,22,20,53.9,457.8
+5,P5_039,[High-MCTS] MCTS(750) vs Minimax(3),mcts,"{""simulations"": 750}",minimax,"{""depth"": 3}",50,7,15,28,29.0,71.0,19,16,59.3,769.8
+5,P5_040,[High-MCTS] MCTS(1000) vs Minimax(3),mcts,"{""simulations"": 1000}",minimax,"{""depth"": 3}",50,8,6,36,22.0,78.0,20,24,57.9,1037.4

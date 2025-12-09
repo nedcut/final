@@ -2,9 +2,9 @@
 
 ## Overview
 
-**Date:** December 7, 2025
-**Total Experiments:** 40
-**Total Games:** 2,930
+**Date:** December 8, 2025
+**Total Experiments:** 42
+**Total Games:** 3,130
 **Research Question:** How do Minimax and MCTS compare on Gardner MiniChess under equal computational budgets?
 
 ---
@@ -119,15 +119,23 @@ For Gardner MiniChess, Minimax with alpha-beta pruning is the clear winner. The 
 
 ## Phase 4: Time-Matched Experiments
 
-**Purpose:** Fair comparison at equal computational budgets (100 games each).
+**Purpose:** Fair comparison using enforced per-move time limits (100 games each).
 
-| Budget | MCTS Config | Minimax Config | MCTS Win Rate | Minimax Win Rate | Draws | Avg Plies |
-|--------|-------------|----------------|---------------|------------------|-------|-----------|
-| ~0.5s | 50 sims | depth=3 | 1.5% | 98.5% | 1% | 31.5 |
-| ~1.0s | 100 sims | depth=4 | 1.5% | 98.5% | 1% | 34.3 |
-| ~2.0s | 200 sims | depth=4 | 4.0% | 96.0% | 6% | 43.6 |
+**Methodology:** Both agents receive identical time budgets with high resource caps:
+- MCTS: 10,000 simulations cap (time is the binding constraint)
+- Minimax: depth 10 with iterative deepening (time is the binding constraint)
 
-**Observation:** Under time-matched conditions, Minimax wins over 96% of games at every budget level. This is the most fair comparison and demonstrates Minimax's clear superiority.
+This approach ensures truly fair resource allocation—both agents get exactly the same thinking time per move, rather than relying on estimated equivalences between simulation counts and search depths.
+
+| Time Budget | MCTS Wins | Draws | Minimax Wins | MCTS Win Rate | Avg Plies |
+|-------------|-----------|-------|--------------|---------------|-----------|
+| 0.1s | 1 | 0 | 99 | 1.0% | 29.0 |
+| 0.2s | 2 | 2 | 96 | 3.0% | 32.8 |
+| 0.5s | 0 | 3 | 97 | 1.5% | 30.4 |
+| 1.0s | 0 | 1 | 99 | 0.5% | 36.8 |
+| 2.0s | 0 | 1 | 99 | 0.5% | 34.8 |
+
+**Observation:** Under enforced equal time budgets, Minimax wins 97–99.5% of games across all tested time constraints. This is the most methodologically rigorous comparison and demonstrates Minimax's clear superiority. The consistency across different time budgets (0.1s–2.0s) confirms that the result is robust and not an artifact of specific configuration choices.
 
 ---
 
@@ -171,7 +179,7 @@ For Gardner MiniChess, Minimax with alpha-beta pruning is the clear winner. The 
    - High draw rates against shallower Minimax suggest MCTS can avoid losing but cannot find wins
 
 4. **Time-Matched Results Are Decisive**
-   The fairest comparison (equal computational budget) shows Minimax winning 96-98.5% of games. This is the key finding: at equal resources, Minimax dramatically outperforms MCTS.
+   The fairest comparison (enforced equal time budgets from 0.1s–2.0s) shows Minimax winning 97–99.5% of games. This is the key finding: at truly equal resources with enforced time limits, Minimax dramatically outperforms MCTS, and this result is consistent across all tested time budgets.
 
 ---
 
@@ -181,7 +189,7 @@ For Gardner MiniChess, Minimax with alpha-beta pruning is the clear winner. The 
 
 > **How do Minimax and MCTS compare on Gardner MiniChess?**
 
-**Minimax with alpha-beta pruning decisively outperforms MCTS on Gardner MiniChess.** Under time-matched conditions, Minimax wins 96-98.5% of games. Even with 10× more computational resources, MCTS cannot achieve parity with a depth-3 Minimax search.
+**Minimax with alpha-beta pruning decisively outperforms MCTS on Gardner MiniChess.** Under time-matched conditions with enforced per-move time limits (0.1s–2.0s), Minimax wins 97–99.5% of games. Even with 10× more computational resources, MCTS cannot achieve parity with a depth-3 Minimax search.
 
 The primary reason is **tactical precision**: Gardner MiniChess, with its small 5×5 board, is highly tactical. Games are often decided by forcing sequences (checks, captures, threats) that Minimax evaluates exhaustively while MCTS samples probabilistically and often misses.
 
@@ -202,7 +210,7 @@ For MiniChess and similar tactical games, **Minimax is strongly recommended**. M
 1. **Single game variant** — Results may not generalize to standard chess or other variants
 2. **Fixed evaluation function** — Minimax used simple material balance; a weaker heuristic might change results
 3. **Basic MCTS implementation** — More advanced MCTS variants (RAVE, progressive bias) were not tested
-4. **No time controls** — Real gameplay may differ from our fixed-depth/simulation experiments
+4. **Python implementation** — Native implementations may show different relative performance
 
 ### Future Work
 
@@ -221,8 +229,9 @@ For MiniChess and similar tactical games, **Minimax is strongly recommended**. M
 - **Color Swapping:** Yes, all experiments (equal games as White and Black)
 - **Game Limit:** 200 plies maximum
 - **Draw Detection:** Threefold repetition, 50-move rule, insufficient material
-- **Total Runtime:** ~4.5 hours
+- **Time-Matched Methodology:** Enforced per-move time limits (0.1s–2.0s) with high caps (MCTS: 10,000 sims; Minimax: depth 10)
+- **Total Runtime:** ~6 hours (including extended time-matched experiments)
 
 ---
 
-*Generated from experiments run on December 7, 2025*
+*Generated from experiments run on December 8, 2025*

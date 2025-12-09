@@ -40,16 +40,16 @@ docs/                   # Documentation
 
 ## Research Findings
 
-**TL;DR:** Minimax dominates MCTS on 5×5 MiniChess (60-80% win rate at equal computational budgets). The small state space and tactical nature favor exhaustive search over sampling.
+**TL;DR:** Minimax dominates MCTS on 5×5 MiniChess (97–99.5% win rate under enforced equal time budgets from 0.1s–2.0s per move). The small state space and tactical nature strongly favor exhaustive search over sampling-based methods.
 
-See [FINDINGS.md](docs/FINDINGS.md) for complete analysis.
+See [RESULTS.md](docs/RESULTS.md) for complete analysis.
 
 ## Key Features
 
 - **Minimax Agent:** Alpha-beta pruning, configurable depth, move ordering
 - **MCTS Agent:** UCB1 selection, capture-biased rollouts, 4× optimized
 - **Universal Match Runner:** CLI for running any agent matchup
-- **Comprehensive Testing:** 1,870+ games analyzed across multiple configurations
+- **Comprehensive Testing:** 3,100+ games analyzed across multiple configurations
 
 ## Usage Examples
 

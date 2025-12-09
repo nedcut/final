@@ -60,10 +60,12 @@ Comprehensive comparison across the parameter space:
 - 100 games per configuration for statistical significance
 
 ### Phase 4: Time-Matched Experiments
-Fair comparison at approximately equal computational budgets:
-- ~0.5s budget: MCTS(50) vs Minimax(3)
-- ~1.0s budget: MCTS(100) vs Minimax(4)
-- ~2.0s budget: MCTS(200) vs Minimax(4)
+Fair comparison using enforced per-move time limits. Both agents receive identical time budgets with high resource caps (MCTS: 10,000 sims; Minimax: depth 10 with iterative deepening), ensuring time is the binding constraint:
+- 0.1 seconds per move
+- 0.2 seconds per move
+- 0.5 seconds per move
+- 1.0 seconds per move
+- 2.0 seconds per move
 
 ### Phase 5: High-Resource MCTS Scaling
 Test MCTS performance ceiling with increased resources (500-1000 simulations).

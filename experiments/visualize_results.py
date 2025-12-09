@@ -2,6 +2,7 @@
 """Generate visualizations from experiment results."""
 import csv
 import json
+import re
 from pathlib import Path
 from typing import Dict, List
 
@@ -164,10 +165,11 @@ def plot_time_matched(results: List[Dict], output_dir: Path):
     """Bar chart for time-matched experiments (the fairest comparison)."""
     phase4 = get_phase_results(results, 4)
 
-    budgets = ['~0.5s', '~1.0s', '~2.0s']
+    # Extract time budgets dynamically from the data
     mcts_rates = []
     minimax_rates = []
     draw_rates = []
+    budgets = []
 
     for r in sorted(phase4, key=lambda x: x['experiment_id']):
         wins = int(r['agent1_wins'])
@@ -179,10 +181,26 @@ def plot_time_matched(results: List[Dict], output_dir: Path):
         draw_rates.append(draws / total * 100)
         minimax_rates.append(losses / total * 100)
 
+        # Extract time budget from config or description
+        config1 = json.loads(r['agent1_config'])
+        if 'time_limit' in config1:
+            budgets.append(f"{config1['time_limit']}s")
+        else:
+            # Fallback: extract from description like "[Time-Matched 0.5s]"
+            desc = r['description']
+            if 'Time-Matched' in desc:
+                match = re.search(r'Time-Matched\s+~?([\d.]+)s', desc)
+                if match:
+                    budgets.append(f"{match.group(1)}s")
+                else:
+                    budgets.append(f"Budget {len(budgets)+1}")
+            else:
+                budgets.append(f"Budget {len(budgets)+1}")
+
     x = np.arange(len(budgets))
     width = 0.6
 
-    fig, ax = plt.subplots(figsize=(9, 6))
+    fig, ax = plt.subplots(figsize=(12, 6))
 
     # Stacked bar chart
     p1 = ax.bar(x, mcts_rates, width, label='MCTS Wins', color=COLORS['mcts'])
@@ -190,11 +208,11 @@ def plot_time_matched(results: List[Dict], output_dir: Path):
     p3 = ax.bar(x, minimax_rates, width, bottom=[m+d for m,d in zip(mcts_rates, draw_rates)],
                 label='Minimax Wins', color=COLORS['minimax'])
 
-    ax.set_xlabel('Computational Budget', fontsize=14, fontweight='bold')
+    ax.set_xlabel('Time Budget (per move)', fontsize=14, fontweight='bold')
     ax.set_ylabel('Outcome (%)', fontsize=14, fontweight='bold')
-    ax.set_title('Time-Matched Comparison\n(Equal computational resources)', fontsize=16, fontweight='bold')
+    ax.set_title('Time-Matched Comparison\n(Enforced equal time limits per move)', fontsize=16, fontweight='bold')
     ax.set_xticks(x)
-    ax.set_xticklabels(budgets, fontsize=12)
+    ax.set_xticklabels(budgets, fontsize=11)
     ax.legend(fontsize=11, loc='upper right', bbox_to_anchor=(1.0, 1.15))
     ax.set_ylim(0, 105)
 
@@ -206,10 +224,12 @@ def plot_time_matched(results: List[Dict], output_dir: Path):
         if draw > 3:
             ax.text(i, mcts + draw/2, f'{draw:.0f}%', ha='center', va='center',
                    color='white', fontweight='bold', fontsize=11)
+        # Adjust font size based on number of bars
+        mm_fontsize = 12 if len(budgets) > 3 else 14
         ax.text(i, mcts + draw + mm/2, f'{mm:.0f}%', ha='center', va='center',
-               color='white', fontweight='bold', fontsize=14)
+               color='white', fontweight='bold', fontsize=mm_fontsize)
 
-    ax.tick_params(axis='both', labelsize=12)
+    ax.tick_params(axis='both', labelsize=11)
 
     plt.tight_layout()
     plt.savefig(output_dir / 'time_matched.png', dpi=150, bbox_inches='tight')

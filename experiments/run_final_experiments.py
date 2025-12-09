@@ -200,26 +200,27 @@ def create_experiment_suite(games_multiplier: float = 1.0) -> list[ExperimentCon
             ))
 
     # =========================================================================
-    # PHASE 4: TIME-MATCHED EXPERIMENTS
+    # PHASE 4: TIME-MATCHED EXPERIMENTS (with enforced time limits)
     # Purpose: Fair comparison at equal computational budgets
+    #
+    # Both agents get identical per-move time budgets enforced via time_limit.
+    # - MCTS: high simulation cap (10000) so time is the only constraint
+    # - Minimax: high depth cap (10) with iterative deepening fills time budget
     # =========================================================================
-    time_matched_configs = [
-        # (MCTS sims, Minimax depth, approximate time budget)
-        (50, 3, "~0.5s"),
-        (100, 4, "~1.0s"),
-        (200, 4, "~2.0s"),
-    ]
+    time_budgets = [0.1, 0.2, 0.5, 1.0, 2.0]  # seconds per move
 
-    for sims, depth, budget in time_matched_configs:
+    for time_budget in time_budgets:
         exp_counter += 1
         experiments.append(ExperimentConfig(
             phase=4,
             experiment_id=f"P4_{exp_counter:03d}",
-            description=f"[Time-Matched {budget}] MCTS({sims}) vs Minimax({depth})",
+            description=f"[Time-Matched {time_budget}s] MCTS vs Minimax",
             agent1_type="mcts",
-            agent1_config={"simulations": sims},
+            # High simulation cap ensures time_limit is the binding constraint
+            agent1_config={"simulations": 10000, "time_limit": time_budget},
             agent2_type="minimax",
-            agent2_config={"depth": depth},
+            # High depth cap with iterative deepening ensures time_limit is binding
+            agent2_config={"depth": 10, "time_limit": time_budget},
             num_games=scaled_games(100),
             seed=4000 + exp_counter,
         ))
@@ -263,12 +264,16 @@ def build_command(config: ExperimentConfig, pythonpath: str) -> list[str]:
         cmd.extend(["--agent1-depth", str(config.agent1_config["depth"])])
     if config.agent1_type == "mcts" and "simulations" in config.agent1_config:
         cmd.extend(["--agent1-simulations", str(config.agent1_config["simulations"])])
+    if "time_limit" in config.agent1_config:
+        cmd.extend(["--agent1-time-limit", str(config.agent1_config["time_limit"])])
 
     # Add agent2 config
     if config.agent2_type == "minimax" and "depth" in config.agent2_config:
         cmd.extend(["--agent2-depth", str(config.agent2_config["depth"])])
     if config.agent2_type == "mcts" and "simulations" in config.agent2_config:
         cmd.extend(["--agent2-simulations", str(config.agent2_config["simulations"])])
+    if "time_limit" in config.agent2_config:
+        cmd.extend(["--agent2-time-limit", str(config.agent2_config["time_limit"])])
 
     return cmd
 
@@ -296,8 +301,10 @@ def parse_output(output: str) -> tuple[int, int, int, int, int, float]:
     agent_line = next(l for l in lines if "By agent  ->" in l)
     agent_parts = agent_line.split("->")[1].strip().split("|")
 
-    agent1_wins = int(agent_parts[0].split()[1])
-    agent2_wins = int(agent_parts[2].split()[1])
+    # Use [-1] to get the last token (win count) since agent labels may contain spaces
+    # e.g., "mcts(sims=10000, time=0.05s) 0" -> split gives ['mcts(sims=10000,', 'time=0.05s)', '0']
+    agent1_wins = int(agent_parts[0].split()[-1])
+    agent2_wins = int(agent_parts[2].split()[-1])
 
     return agent1_wins, draws, agent2_wins, white_wins, black_wins, avg_plies
 

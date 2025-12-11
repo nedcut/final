@@ -1,9 +1,12 @@
+# Python
 .venv/
 __pycache__/
-.pytest_cache/
-.DS_Store
 *.pyc
 
-# Experiment logs and archives
+# macOS
+.DS_Store
+
+# Experiment outputs
 *.log
 experiments/results/archive/
+experiments/figures/

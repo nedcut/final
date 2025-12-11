@@ -1,6 +1,0 @@
-phase,experiment_id,description,agent1_type,agent1_config,agent2_type,agent2_config,num_games,agent1_wins,draws,agent2_wins,agent1_win_rate,agent2_win_rate,white_wins,black_wins,avg_plies,elapsed_time
-4,P4_035,[Time-Matched 0.1s] MCTS vs Minimax,mcts,"{""simulations"": 10000, ""time_limit"": 0.1}",minimax,"{""depth"": 10, ""time_limit"": 0.1}",100,1,0,99,1.0,99.0,51,49,29.0,256.2
-4,P4_036,[Time-Matched 0.2s] MCTS vs Minimax,mcts,"{""simulations"": 10000, ""time_limit"": 0.2}",minimax,"{""depth"": 10, ""time_limit"": 0.2}",100,2,2,96,3.0,97.0,50,48,32.8,565.3
-4,P4_037,[Time-Matched 0.5s] MCTS vs Minimax,mcts,"{""simulations"": 10000, ""time_limit"": 0.5}",minimax,"{""depth"": 10, ""time_limit"": 0.5}",100,0,3,97,1.5,98.5,49,48,30.4,1367.9
-4,P4_038,[Time-Matched 1.0s] MCTS vs Minimax,mcts,"{""simulations"": 10000, ""time_limit"": 1.0}",minimax,"{""depth"": 10, ""time_limit"": 1.0}",100,0,1,99,0.5,99.5,50,49,36.8,3033.4
-4,P4_039,[Time-Matched 2.0s] MCTS vs Minimax,mcts,"{""simulations"": 10000, ""time_limit"": 2.0}",minimax,"{""depth"": 10, ""time_limit"": 2.0}",100,0,1,99,0.5,99.5,50,49,34.8,5413.8
